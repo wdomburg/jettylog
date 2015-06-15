@@ -7,11 +7,13 @@ import java.util.Date;
 
 public abstract class Converter
 {   
+	// Set default child of new converters to terminal singleton
 	protected Converter child = terminator;
 
-	private static Converter terminator = new Converter()
+	// Singleton instance that terminates a converter chain
+	private static final Converter terminator = new Converter()
 	{
-		protected Converter child = null;
+		private final Converter child = null;
 
 		public String format(StringBuilder entry, Object ... args)
 		{
@@ -20,11 +22,12 @@ public abstract class Converter
 
 	};
 
-	public static ThreadName threadName()
-	{
-		return new ThreadName();
-	}
+	public static DateNow dateNow(String dateFormatPattern) { return new DateNow(new SimpleDateFormat(dateFormatPattern)); }
+	public static DateNow dateNow(SimpleDateFormat dateFormat) { return new DateNow(dateFormat); }
+	public static Literal literal(String literal) { return new Literal(literal); }
+	public static ThreadName threadName() { return new ThreadName(); }
 
+	/*
 	public static Converter date(String dateFormatPattern)
 	{
 		return date(new SimpleDateFormat(dateFormatPattern));
@@ -41,20 +44,41 @@ public abstract class Converter
 			}
 		};
 	}
+	*/
 
-	public static Converter literal(final String literal)
+	private static class DateNow extends Converter
 	{
-		return new Converter()
+		private final DateFormat dateFormat;
+
+		private DateNow(DateFormat dateFormat)
 		{
-			public String format(StringBuilder entry, Object ... args)
-			{
-				entry.append(literal);
-				return child.format(entry, args);
-			}
-		};
+			this.dateFormat = dateFormat;
+		}
+
+		public String format(StringBuilder entry, Object ... args)
+		{
+			entry.append(dateFormat.format(new Date()));
+			return child.format(entry, args);
+		}
 	}
 
-	public static class ThreadName extends Converter
+	private static class Literal extends Converter
+	{
+		private final String literal;
+
+		private Literal(String literal)
+		{
+			this.literal = literal;
+		}
+
+		public String format(StringBuilder entry, Object ... args)
+		{
+			entry.append(literal);
+			return child.format(entry, args);
+		}
+	}
+
+	private static class ThreadName extends Converter
 	{
 		public String format(StringBuilder entry, Object ... args)
 		{   

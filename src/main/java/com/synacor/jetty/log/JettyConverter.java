@@ -11,6 +11,7 @@ import org.eclipse.jetty.server.Request;
 public abstract class JettyConverter extends Converter
 {   
 	public static BytesWritten bytesWritten() { return new BytesWritten(); }
+	public static Header header(String header) { return new Header(header); }
 	public static Latency latency() { return new Latency(); }
 	public static Method method() { return new Method(); }
 	public static Protocol protocol() { return new Protocol(); }
@@ -21,22 +22,19 @@ public abstract class JettyConverter extends Converter
 	public static TimeReceived timeReceived() { return new TimeReceived(); }
 	public static Username username() { return new Username(); }
 
-	//public static Converter header(final String header)
-	//{
-	//	return new JettyConverter()
-	//	{
-	//		public String format(StringBuilder entry, Request request, Response response)
-	//		{
-	//			String value = request.getHeader(header);
-	//			entry.append(value != null ? value : "");
-	//			return child.format(entry, request, response);
-	//		}
-	//	};
-	//}
+	// FIXME: support both %B (empty = 0) and %b (empty = -)
+	private static class BytesWritten extends JettyConverter
+	{
+		public String format(StringBuilder entry, Request request, Response response)
+		{   
+			// NOTE: This changes to .getHttpChannel().getBytesWritten() for Jetty 9.x
+			long bytes = response.getContentCount();
+			entry.append(bytes > 0 ? bytes : "-");
+			return child.format(entry, request, response);
+		}
+	}
 
-	public static Header header(String header) { return new Header(header); }
-
-	public static class Header extends JettyConverter
+	private static class Header extends JettyConverter
 	{
 		private final String header;
 
@@ -49,18 +47,6 @@ public abstract class JettyConverter extends Converter
 		{
 			String value = request.getHeader(header);
 			entry.append(value != null ? value : "");
-			return child.format(entry, request, response);
-		}
-	}
-
-	// FIXME: support both %B (empty = 0) and %b (empty = -)
-	private static class BytesWritten extends JettyConverter
-	{
-		public String format(StringBuilder entry, Request request, Response response)
-		{   
-			// NOTE: This changes to .getHttpChannel().getBytesWritten() for Jetty 9.x
-			long bytes = response.getContentCount();
-			entry.append(bytes > 0 ? bytes : "-");
 			return child.format(entry, request, response);
 		}
 	}
