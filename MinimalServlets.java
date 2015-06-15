@@ -29,8 +29,16 @@ public class MinimalServlets
 		handler.addFilterWithMapping(TxidFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         handler.addServletWithMapping(HelloServlet.class, "/*");
 
+		String format = System.getProperty("com.synacor.jetty.log.format");
+
+		RequestLog requestLog = new CustomRequestLog();
+
+		//if (format == null)
+		//	format = "%h %l %u %t \"%r\" %s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\" %{Syn-Txid}i %v %D \"%{HOST}i\" %P %{mod_php_memory_usage}n";
+		//RequestLog requestLog = new CustomRequestLog(format);
+
 		//RequestLog requestLog = new CustomRequestLog("%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\" %{Syn-Txid}i %v %D \"%{HOST}i\" %P %{mod_php_memory_usage}n");
-		RequestLog requestLog = new TestRequestLog();
+		//RequestLog requestLog = new TestRequestLog();
 		RequestLogHandler logHandler = new RequestLogHandler();
 		logHandler.setRequestLog(requestLog);
 

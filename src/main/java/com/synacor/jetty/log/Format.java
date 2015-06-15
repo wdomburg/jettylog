@@ -33,13 +33,13 @@ public class Format
 		return this;
 	}
 
-	public Format addDirective(String directive)
+	public Format addDirective(char directive)
 	{
 		tokens.add(Token.directive(directive));
 		return this;
 	}
 
-	public Format addDirective(String directive, String argument)
+	public Format addDirective(char directive, String argument)
 	{
 		tokens.add(Token.directive(directive, argument));
 		return this;
@@ -47,13 +47,13 @@ public class Format
 
 	public Format addDirective(CharSequence directive, String argument)
 	{
-		tokens.add(Token.directive(directive.toString(), argument));
+		tokens.add(Token.directive(directive.toString().charAt(0), argument));
 		return this;
 	}
 
 	public Format addDirective(CharSequence directive, CharSequence argument)
 	{
-		tokens.add(Token.directive(directive.toString(), argument.toString()));
+		tokens.add(Token.directive(directive.toString().charAt(0), argument.toString()));
 		return this;
 	}
 

@@ -16,17 +16,27 @@ public abstract class Token
 		return new Literal(literal);
 	}
 
-	public static Directive directive(String directive)
+	public static Directive directive(char directive)
 	{
 		return directive(directive, null);
 	}
 
-	public static Directive directive(String directive, String parameter)
+	public static Directive directive(char directive, String parameter)
 	{
 		return new Directive(directive, parameter);
 	}
 
-	private static class Literal extends Token
+	public String getArgument()
+	{
+		return null;
+	}
+
+	public char getDirective()
+	{
+		return (char) 0;
+	}
+
+	protected static class Literal extends Token
 	{
 		String literal; 
 
@@ -35,23 +45,28 @@ public abstract class Token
 			this.literal = literal;
 		}
 
+		public String getArgument()
+		{
+			return literal;
+		}
+
 		public String toString()
 		{
 			return literal.replaceAll("%", "%%");
 		}
 	}
 
-	private static class Directive extends Token
+	protected static class Directive extends Token
 	{
-		String directive;
+		char directive;
 		String argument;
 
-		public Directive(String directive)
+		public Directive(char directive)
 		{
 			this(directive,null);
 		}
 
-		public Directive(String directive, String argument)
+		public Directive(char directive, String argument)
 		{
 			this.directive = directive;
 			this.argument = argument;
@@ -60,6 +75,16 @@ public abstract class Token
 		public boolean hasArgument()
 		{
 			return argument != null;
+		}
+
+		public char getDirective()
+		{
+			return directive;
+		}
+
+		public String getArgument()
+		{
+			return argument;
 		}
 
 		public String toString()

@@ -53,7 +53,7 @@ public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 	}
 
 	@Override
-	public void log (Request request, Response response)
+	public void log(Request request, Response response)
 	{
 		System.out.println(converter.format(request, response));
 	}

@@ -13,11 +13,13 @@ public abstract class JettyConverter extends Converter
 	public static BytesWritten bytesWritten() { return new BytesWritten(); }
 	public static Header header(String header) { return new Header(header); }
 	public static Latency latency() { return new Latency(); }
+	public static LatencySeconds latencySeconds() { return new LatencySeconds(); }
 	public static Method method() { return new Method(); }
 	public static Protocol protocol() { return new Protocol(); }
 	public static RemoteAddress remoteAddress() { return new RemoteAddress(); }
 	public static RequestString requestString() { return new RequestString(); }
 	public static RequestUri requestUri() { return new RequestUri(); }
+	public static RequestUrl requestUrl() { return new RequestUrl(); }
 	public static Status status() { return new Status(); }
 	public static TimeReceived timeReceived() { return new TimeReceived(); }
 	public static Username username() { return new Username(); }
@@ -57,6 +59,16 @@ public abstract class JettyConverter extends Converter
 		{   
 			long now = System.currentTimeMillis();
 			entry.append(now - request.getTimeStamp());
+			return child.format(entry, request, response);
+		}
+	}
+
+	private static class LatencySeconds extends JettyConverter
+	{
+		public String format(StringBuilder entry, Request request, Response response)
+		{
+			long now = System.currentTimeMillis();
+			entry.append(now - request.getTimeStamp() / 1000);
 			return child.format(entry, request, response);
 		}
 	}
@@ -106,6 +118,15 @@ public abstract class JettyConverter extends Converter
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
 			entry.append(request.getRequestURI().toString());
+			return child.format(entry, request, response);
+		}
+	}
+
+	private static class RequestUrl extends JettyConverter
+	{
+		public String format(StringBuilder entry, Request request, Response response)
+		{   
+			entry.append(request.getRequestURL().toString());
 			return child.format(entry, request, response);
 		}
 	}

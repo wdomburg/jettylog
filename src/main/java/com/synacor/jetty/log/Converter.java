@@ -27,6 +27,31 @@ public abstract class Converter
 	public static Literal literal(String literal) { return new Literal(literal); }
 	public static ThreadName threadName() { return new ThreadName(); }
 
+	public static class Builder
+	{
+		private Converter head = null;
+		private Converter tail = null;
+
+		public Builder add(Converter converter)
+		{
+			if (head == null)
+			{
+				head = tail = converter;
+			}
+			else
+			{
+				tail = tail.setChild(converter);
+			}
+
+			return this;
+		}
+
+		public Converter build()
+		{
+			return head;
+		}
+	}
+
 	/*
 	public static Converter date(String dateFormatPattern)
 	{
