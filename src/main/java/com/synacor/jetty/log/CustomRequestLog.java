@@ -12,111 +12,60 @@ import com.synacor.jetty.log.Format;
 import com.synacor.jetty.log.Converter;
 import com.synacor.jetty.log.JettyConverter;
 
+import com.synacor.jetty.log.layout.Layout;
+import com.synacor.jetty.log.layout.PatternLayout;
+
+import com.synacor.jetty.log.appender.Appender;
+import com.synacor.jetty.log.appender.TestAppender;
+
+import java.io.FileNotFoundException;
+
 public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
 {
-
-	//FIXME: handle %>s
-	//public static final COMMON = "%h %l %u %t \"%r\" %>s %b";
-	public static final String COMMON = "%h %l %u %t \"%r\" %s %b";
-
-	private Converter converter;
-
-	public static String getPattern()
-	{
-		String pattern = System.getProperty("com.synacor.jetty.log.format");
-
-		if (pattern == null)
-			pattern = COMMON;
-
-		return pattern;
-	}
+	private Layout layout;
+	private	Appender appender;
 
 	public CustomRequestLog()
+		throws FileNotFoundException
 	{
-		this(getPattern());
+		this(new PatternLayout(), new TestAppender("/var/tmp/test.log"));
 	}
 
-	public CustomRequestLog(String pattern)
+	public CustomRequestLog(Layout layout, Appender appender)
+		throws FileNotFoundException
 	{
-
-		Format format = new Format(pattern);
-
-		Converter.Builder builder = new Converter.Builder();
-
-		for (Token token: format.getTokens())
-		{
-			addToken(builder, token);
-		}
+		setLayout(layout);
+		setAppender(appender);
 	}
 
-	private void addToken(Converter.Builder builder, Token token)
+	public CustomRequestLog setLayout(Layout layout)
 	{
-		char directive = token.getDirective();
+		this.layout = layout;
 
-		switch(directive)
-		{
-			case 'b':
-				builder.add(JettyConverter.bytesWritten());
-				break;
-			case 'D':
-				builder.add(JettyConverter.latency());
-				break;
-			case 'h':
-				builder.add(JettyConverter.remoteAddress());
-				break;
-			case 'i':
-				builder.add(JettyConverter.header(token.getArgument()));
-				break;
-			case 'l':
-				builder.add(JettyConverter.literal("-"));
-				break;
-			case 'm':
-				builder.add(JettyConverter.method());
-			case 'n':
-				// "The contents of note Foobar from another module." // Maybe reuse as debug context?
-				builder.add(JettyConverter.literal("-"));
-				break;
-			case 'r':
-				builder.add(JettyConverter.requestString());
-				break;
-			case 'P':
-				// "The process ID of the child that serviced the request." // Doing TID instead.
-				builder.add(JettyConverter.threadName());
-				break;
-			case 's':
-				builder.add(JettyConverter.status());
-				break;
-			case 't':
-				builder.add(JettyConverter.timeReceived());
-				break;
-			case 'T':
-				builder.add(JettyConverter.latencySeconds());
-				break;
-			case 'u':
-				builder.add(JettyConverter.username());
-				break;
-			case 'U':
-				builder.add(JettyConverter.requestUrl());
-				break;
-			case 'v':
-				// Should be canonical server name
-				builder.add(JettyConverter.literal("-"));
-				break;
-			case 0:
-				builder.add(JettyConverter.literal(token.getArgument()));
-				break;
-			default:
-				break;
-		}
+		return this;
+	}
 
-		converter = builder.build();
+	public CustomRequestLog setAppender(Appender appender)
+		throws FileNotFoundException
+	{
+		this.appender = appender;
+		appender.doStart();
+
+		return this;
+	}
+
+	@Override
+	protected void doStop()
+		throws Exception
+	{
+		if (appender != null)
+			appender.doStop();
 	}
 
 	@Override
 	public void log (Request request, Response response)
 	{
-		System.out.println(converter.format(request, response));
-		//System.out.println(format.toString());
+		appender.write(layout.format(request, response));
 	}
 
 }
