@@ -8,8 +8,8 @@ import org.eclipse.jetty.server.RequestLog;
 //import org.eclipse.jetty.util.annotation.ManagedObject;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;;
 
-//import com.synacor.jetty.log.Converter;
-import com.synacor.jetty.log.JettyConverter;
+import com.synacor.jetty.log.converter.Converter;
+import com.synacor.jetty.log.converter.JettyConverter;
 
 //@ManagedObject("Test request log")
 public class TestRequestLog extends AbstractLifeCycle implements RequestLog

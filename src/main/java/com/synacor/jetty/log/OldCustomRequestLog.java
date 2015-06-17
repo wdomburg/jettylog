@@ -9,11 +9,10 @@ import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;;
 
 import com.synacor.jetty.log.Format;
-import com.synacor.jetty.log.Converter;
-import com.synacor.jetty.log.JettyConverter;
-
 import com.synacor.jetty.log.appender.Appender;
 import com.synacor.jetty.log.appender.TestAppender;
+import com.synacor.jetty.log.converter.Converter;
+import com.synacor.jetty.log.converter.JettyConverter;
 
 public class OldCustomRequestLog extends AbstractLifeCycle implements RequestLog
 {

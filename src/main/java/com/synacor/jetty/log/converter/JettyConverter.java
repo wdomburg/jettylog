@@ -1,4 +1,4 @@
-package com.synacor.jetty.log;
+package com.synacor.jetty.log.converter;
 
 import java.lang.StringBuilder;
 import java.text.DateFormat;

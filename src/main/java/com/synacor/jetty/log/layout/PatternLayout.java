@@ -2,8 +2,8 @@ package com.synacor.jetty.log.layout;
 
 import com.synacor.jetty.log.Token;
 import com.synacor.jetty.log.Format;
-import com.synacor.jetty.log.Converter;
-import com.synacor.jetty.log.JettyConverter;
+import com.synacor.jetty.log.converter.Converter;
+import com.synacor.jetty.log.converter.JettyConverter;
 
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
@@ -21,12 +21,21 @@ public class PatternLayout extends Layout
 
 	public PatternLayout()
 	{
-		this(COMMON);
+		this(getPattern());
 	}
+
 
 	public PatternLayout(String pattern)
 	{
 		setPattern(pattern);
+	}
+
+	// no not like; revisit
+	public static String getPattern()
+	{
+		String pattern = System.getProperty("com.synacor.jetty.log.format");
+
+		return (pattern == null) ? COMMON : pattern;
 	}
 
 	public void setPattern(String pattern)
