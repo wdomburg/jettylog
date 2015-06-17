@@ -1,4 +1,4 @@
-package com.synacor.jetty.log;
+package com.synacor.jetty.log.format;
 
 import java.lang.StringBuilder;
 import java.util.List;

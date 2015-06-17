@@ -1,10 +1,10 @@
 package com.synacor.jetty.log.layout;
 
-import com.synacor.jetty.log.Token;
-import com.synacor.jetty.log.Format;
 import com.synacor.jetty.log.converter.Converter;
 import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
+import com.synacor.jetty.log.format.Format;
+import com.synacor.jetty.log.format.Token;
 
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
