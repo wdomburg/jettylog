@@ -22,31 +22,6 @@ public abstract class Converter
 
 	};
 
-	public static class Builder
-	{
-		private Converter head = null;
-		private Converter tail = null;
-
-		public Builder add(Converter converter)
-		{
-			if (head == null)
-			{
-				head = tail = converter;
-			}
-			else
-			{
-				tail = tail.setChild(converter);
-			}
-
-			return this;
-		}
-
-		public Converter build()
-		{
-			return head;
-		}
-	}
-
 	public static class DateNow extends Converter
 	{
 		private final DateFormat dateFormat;

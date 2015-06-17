@@ -10,8 +10,6 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;;
 
 import com.synacor.jetty.log.appender.Appender;
 import com.synacor.jetty.log.appender.TestAppender;
-import com.synacor.jetty.log.converter.Converter;
-import com.synacor.jetty.log.converter.JettyConverter;
 import com.synacor.jetty.log.layout.Layout;
 import com.synacor.jetty.log.layout.PatternLayout;
 

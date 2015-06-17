@@ -3,6 +3,7 @@ package com.synacor.jetty.log.layout;
 import com.synacor.jetty.log.Token;
 import com.synacor.jetty.log.Format;
 import com.synacor.jetty.log.converter.Converter;
+import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
 
 import org.eclipse.jetty.server.Response;
@@ -44,7 +45,7 @@ public class PatternLayout extends Layout
 
 		Format format = new Format(pattern);
 
-		Converter.Builder builder = new Converter.Builder();
+		ConverterBuilder builder = new ConverterBuilder();
 
 		for (Token token: format.getTokens())
 		{
@@ -54,7 +55,7 @@ public class PatternLayout extends Layout
 		converter = builder.build();
 	}
 
-	private void addToken(Converter.Builder builder, Token token)
+	private void addToken(ConverterBuilder builder, Token token)
 	{   
 		char directive = token.getDirective();
 
