@@ -10,22 +10,8 @@ import org.eclipse.jetty.server.Request;
 
 public abstract class JettyConverter extends Converter
 {   
-	public static BytesWritten bytesWritten() { return new BytesWritten(); }
-	public static Header header(String header) { return new Header(header); }
-	public static Latency latency() { return new Latency(); }
-	public static LatencySeconds latencySeconds() { return new LatencySeconds(); }
-	public static Method method() { return new Method(); }
-	public static Protocol protocol() { return new Protocol(); }
-	public static RemoteAddress remoteAddress() { return new RemoteAddress(); }
-	public static RequestString requestString() { return new RequestString(); }
-	public static RequestUri requestUri() { return new RequestUri(); }
-	public static RequestUrl requestUrl() { return new RequestUrl(); }
-	public static Status status() { return new Status(); }
-	public static TimeReceived timeReceived() { return new TimeReceived(); }
-	public static Username username() { return new Username(); }
-
 	// FIXME: support both %B (empty = 0) and %b (empty = -)
-	private static class BytesWritten extends JettyConverter
+	public static class BytesWritten extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -36,7 +22,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Header extends JettyConverter
+	public static class Header extends JettyConverter
 	{
 		private final String header;
 
@@ -53,7 +39,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Latency extends JettyConverter
+	public static class Latency extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -63,7 +49,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class LatencySeconds extends JettyConverter
+	public static class LatencySeconds extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{
@@ -73,7 +59,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Method extends JettyConverter
+	public static class Method extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -82,7 +68,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Protocol extends JettyConverter
+	public static class Protocol extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -91,7 +77,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class RemoteAddress extends JettyConverter
+	public static class RemoteAddress extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -100,7 +86,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class RequestString extends JettyConverter
+	public static class RequestString extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -113,7 +99,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class RequestUri extends JettyConverter
+	public static class RequestUri extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -122,7 +108,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class RequestUrl extends JettyConverter
+	public static class RequestUrl extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -131,7 +117,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Status extends JettyConverter
+	public static class Status extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
@@ -140,7 +126,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class TimeReceived extends JettyConverter
+	public static class TimeReceived extends JettyConverter
 	{
 		private static final DateFormat dateFormat = new SimpleDateFormat("dd/MMM/YYYY:HH:mm:ss Z");
 
@@ -153,7 +139,7 @@ public abstract class JettyConverter extends Converter
 		}
 	}
 
-	private static class Username extends JettyConverter
+	public static class Username extends JettyConverter
 	{
 		public String format(StringBuilder entry, Request request, Response response)
 		{   

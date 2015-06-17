@@ -19,36 +19,36 @@ public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 	public TestRequestLog()
 	{
 
-		converter = JettyConverter.remoteAddress();
+		converter = new JettyConverter.RemoteAddress();
 
 		converter
-			.setChild(JettyConverter.literal(" - "))
-			.setChild(JettyConverter.username())
-			.setChild(JettyConverter.literal(" "))
-			.setChild(JettyConverter.timeReceived())
-			.setChild(JettyConverter.literal(" \""))
-			.setChild(JettyConverter.requestString())
-			.setChild(JettyConverter.literal("\" "))
-			.setChild(JettyConverter.status())
-			.setChild(JettyConverter.literal(" "))
-			.setChild(JettyConverter.bytesWritten())
-			.setChild(JettyConverter.literal(" \""))
-			.setChild(JettyConverter.header("Referer"))
-			.setChild(JettyConverter.literal("\" \""))
-			.setChild(JettyConverter.header("User-Agent"))
-			.setChild(JettyConverter.literal("\" \""))
-			.setChild(JettyConverter.header("Cookie"))
-			.setChild(JettyConverter.literal("\" "))
-			.setChild(JettyConverter.header("Syn-Txid"))
-			.setChild(JettyConverter.literal(" "))
-			.setChild(JettyConverter.literal("-")) //FIXME: should be "canonical server name"
-			.setChild(JettyConverter.literal(" "))
-			.setChild(JettyConverter.latency())
-			.setChild(JettyConverter.literal(" \""))
-			.setChild(JettyConverter.header("HOST"))
-			.setChild(JettyConverter.literal("\" "))
-			.setChild(JettyConverter.threadName())
-			.setChild(JettyConverter.literal(" -"));
+			.setChild(new JettyConverter.Literal(" - "))
+			.setChild(new JettyConverter.Username())
+			.setChild(new JettyConverter.Literal(" "))
+			.setChild(new JettyConverter.TimeReceived())
+			.setChild(new JettyConverter.Literal(" \""))
+			.setChild(new JettyConverter.RequestString())
+			.setChild(new JettyConverter.Literal("\" "))
+			.setChild(new JettyConverter.Status())
+			.setChild(new JettyConverter.Literal(" "))
+			.setChild(new JettyConverter.BytesWritten())
+			.setChild(new JettyConverter.Literal(" \""))
+			.setChild(new JettyConverter.Header("Referer"))
+			.setChild(new JettyConverter.Literal("\" \""))
+			.setChild(new JettyConverter.Header("User-Agent"))
+			.setChild(new JettyConverter.Literal("\" \""))
+			.setChild(new JettyConverter.Header("Cookie"))
+			.setChild(new JettyConverter.Literal("\" "))
+			.setChild(new JettyConverter.Header("Syn-Txid"))
+			.setChild(new JettyConverter.Literal(" "))
+			.setChild(new JettyConverter.Literal("-")) //FIXME: should be "canonical server name"
+			.setChild(new JettyConverter.Literal(" "))
+			.setChild(new JettyConverter.Latency())
+			.setChild(new JettyConverter.Literal(" \""))
+			.setChild(new JettyConverter.Header("HOST"))
+			.setChild(new JettyConverter.Literal("\" "))
+			.setChild(new JettyConverter.ThreadName())
+			.setChild(new JettyConverter.Literal(" -"));
 
 	}
 

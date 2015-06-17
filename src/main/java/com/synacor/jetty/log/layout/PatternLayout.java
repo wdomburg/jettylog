@@ -61,54 +61,54 @@ public class PatternLayout extends Layout
 		switch(directive)
 		{   
 			case 'b':
-				builder.add(JettyConverter.bytesWritten());
+				builder.add(new JettyConverter.BytesWritten());
 				break;
 			case 'D':
-				builder.add(JettyConverter.latency());
+				builder.add(new JettyConverter.Latency());
 				break;
 			case 'h':
-				builder.add(JettyConverter.remoteAddress());
+				builder.add(new JettyConverter.RemoteAddress());
 				break;
 			case 'i':
-				builder.add(JettyConverter.header(token.getArgument()));
+				builder.add(new JettyConverter.Header(token.getArgument()));
 				break;
 			case 'l':
-				builder.add(JettyConverter.literal("-"));
+				builder.add(new JettyConverter.Literal("-"));
 				break;
 			case 'm':
-				builder.add(JettyConverter.method());
+				builder.add(new JettyConverter.Method());
 			case 'n':
 				// "The contents of note Foobar from another module." // Maybe reuse as debug context?
-				builder.add(JettyConverter.literal("-"));
+				builder.add(new JettyConverter.Literal("-"));
 				break;
 			case 'r':
-				builder.add(JettyConverter.requestString());
+				builder.add(new JettyConverter.RequestString());
 				break;
 			case 'P':
 				// "The process ID of the child that serviced the request." // Doing TID instead.
-				builder.add(JettyConverter.threadName());
+				builder.add(new JettyConverter.ThreadName());
 				break;
 			case 's':
-				builder.add(JettyConverter.status());
+				builder.add(new JettyConverter.Status());
 				break;
 			case 't':
-				builder.add(JettyConverter.timeReceived());
+				builder.add(new JettyConverter.TimeReceived());
 				break;
 			case 'T':
-				builder.add(JettyConverter.latencySeconds());
+				builder.add(new JettyConverter.LatencySeconds());
 				break;
 			case 'u':
-				builder.add(JettyConverter.username());
+				builder.add(new JettyConverter.Username());
 				break;
 			case 'U':
-				builder.add(JettyConverter.requestUrl());
+				builder.add(new JettyConverter.RequestUrl());
 				break;
 			case 'v':
 				// Should be canonical server name
-				builder.add(JettyConverter.literal("-"));
+				builder.add(new JettyConverter.Literal("-"));
 				break;
 			case 0:
-				builder.add(JettyConverter.literal(token.getArgument()));
+				builder.add(new JettyConverter.Literal(token.getArgument()));
 				break;
 			default:
 				break;

@@ -22,11 +22,6 @@ public abstract class Converter
 
 	};
 
-	public static DateNow dateNow(String dateFormatPattern) { return new DateNow(new SimpleDateFormat(dateFormatPattern)); }
-	public static DateNow dateNow(SimpleDateFormat dateFormat) { return new DateNow(dateFormat); }
-	public static Literal literal(String literal) { return new Literal(literal); }
-	public static ThreadName threadName() { return new ThreadName(); }
-
 	public static class Builder
 	{
 		private Converter head = null;
@@ -52,30 +47,11 @@ public abstract class Converter
 		}
 	}
 
-	/*
-	public static Converter date(String dateFormatPattern)
-	{
-		return date(new SimpleDateFormat(dateFormatPattern));
-	}
-
-	public static Converter date(final DateFormat dateFormat)
-	{
-		return new Converter()
-		{
-			public String format(StringBuilder entry, Object ... args)
-			{
-				entry.append(dateFormat.format(new Date()));
-				return child.format(entry, args);
-			}
-		};
-	}
-	*/
-
-	private static class DateNow extends Converter
+	public static class DateNow extends Converter
 	{
 		private final DateFormat dateFormat;
 
-		private DateNow(DateFormat dateFormat)
+		public DateNow(DateFormat dateFormat)
 		{
 			this.dateFormat = dateFormat;
 		}
@@ -87,11 +63,11 @@ public abstract class Converter
 		}
 	}
 
-	private static class Literal extends Converter
+	public static class Literal extends Converter
 	{
 		private final String literal;
 
-		private Literal(String literal)
+		public Literal(String literal)
 		{
 			this.literal = literal;
 		}
@@ -103,7 +79,7 @@ public abstract class Converter
 		}
 	}
 
-	private static class ThreadName extends Converter
+	public static class ThreadName extends Converter
 	{
 		public String format(StringBuilder entry, Object ... args)
 		{   
