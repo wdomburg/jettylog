@@ -7,7 +7,7 @@ static FILE* urandom = NULL;
 
 void Java_com_synacor_jetty_log_Txid_init (JNIEnv *env, jclass this)
 {
-	urandom = fopen("/tmp/urandom", "r");
+	urandom = fopen("/dev/urandom", "r");
 }
 
 jstring Java_com_synacor_jetty_log_Txid_getTxid(JNIEnv *env, jclass this)

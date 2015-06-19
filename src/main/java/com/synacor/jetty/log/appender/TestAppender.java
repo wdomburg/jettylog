@@ -19,7 +19,7 @@ public class TestAppender extends Appender
 		this.filename = filename;
 	}
 
-	public void write(String line)
+	public void write(String entry)
 	{
 		if (writer == null)
 		{
@@ -27,11 +27,10 @@ public class TestAppender extends Appender
 			return;
 		}
 
-		System.out.println("Logging: " + line);
-		writer.println(line);
+		System.out.println("Logging: " + entry);
+		writer.println(entry);
 	}
 
-	@Override
 	public synchronized void doStart()
 		throws FileNotFoundException
 	{

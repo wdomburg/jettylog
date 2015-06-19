@@ -10,7 +10,7 @@ import java.text.StringCharacterIterator;
 
 public class Format
 {
-	ArrayList tokens = new ArrayList();
+	ArrayList<Token> tokens = new ArrayList<Token>();
 
 	public Format()
 	{

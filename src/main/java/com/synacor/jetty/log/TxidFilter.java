@@ -41,7 +41,7 @@ public class TxidFilter implements Filter
 		{
 			HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(httpRequest);
 			String txid = Txid.getTxid();
-			requestWrapper.addHeader("Syn-Txid", Txid.getTxid());
+			requestWrapper.addHeader("Syn-Txid", txid);
 			chain.doFilter(requestWrapper, httpResponse);
 		}
 		else
