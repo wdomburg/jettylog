@@ -14,6 +14,7 @@ define 'jettylog' do
 		compile.with 'org.eclipse.jetty:jetty-server:jar:7.6.12.v20130726'
 		compile.with 'org.eclipse.jetty:jetty-util:jar:7.6.12.v20130726'
 		compile.with 'log4j:log4j:jar:1.2.17'
+        #compile.with Dir[_("/opt/zimbra/lib/jars/**/*.jar")]
 		#compile.options.lint = 'all'
 		package(:jar, :id => 'jettylog')
 end

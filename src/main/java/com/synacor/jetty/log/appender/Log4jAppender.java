@@ -8,7 +8,7 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 
 import org.apache.log4j.Logger;
 
-public class Log4jRequestLog extends AbstractLifeCycle implements RequestLog
+public class Log4jAppender extends Appender
 {
     private Logger logger;
 
@@ -25,6 +25,16 @@ public class Log4jRequestLog extends AbstractLifeCycle implements RequestLog
 	public void setLogger(String name)
 	{
 		logger = Logger.getLogger(name);
+	}
+
+	public void doStart()
+	{
+
+	}
+
+	public void doStop()
+	{
+
 	}
 
 	public void write(String entry)
