@@ -10,14 +10,44 @@ import org.eclipse.jetty.server.Request;
 
 public abstract class JettyConverter extends Converter
 {   
-	// FIXME: support both %B (empty = 0) and %b (empty = -)
+
+	public static class Attribute extends JettyConverter
+	{
+		private final String name;
+
+		public Attribute(String name)
+		{
+			this.name = name;
+		}
+
+		public String format(StringBuilder entry, Request request, Response response)
+		{
+			String value = (String) request.getAttribute(name);
+			entry.append(value != null ? value : "-");
+			return child.format(entry, request, response);
+		}
+	}
+
 	public static class BytesWritten extends JettyConverter
 	{
+
+		private final char empty;
+
+		public BytesWritten()
+		{
+			this(false);
+		}
+
+		public BytesWritten(boolean clf)
+		{
+			this.empty = clf ? '-' : '0';
+		}
+	
 		public String format(StringBuilder entry, Request request, Response response)
 		{   
 			// NOTE: This changes to .getHttpChannel().getBytesWritten() for Jetty 9.x
 			long bytes = response.getContentCount();
-			entry.append(bytes > 0 ? bytes : "-");
+			entry.append(bytes > 0 ? bytes : empty);
 			return child.format(entry, request, response);
 		}
 	}

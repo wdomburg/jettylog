@@ -18,6 +18,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import com.synacor.jetty.log.TxidFilter;
 import com.synacor.jetty.log.TestRequestLog;
 import com.synacor.jetty.log.CustomRequestLog;
+import com.synacor.jetty.log.Log4jRequestLog;
 
 public class MinimalServlets
 {
@@ -31,8 +32,9 @@ public class MinimalServlets
 
 		String format = System.getProperty("com.synacor.jetty.log.format");
 
-		RequestLog requestLog = new CustomRequestLog();
+		RequestLog requestLog = new Log4jRequestLog();
 
+		//RequestLog requestLog = new CustomRequestLog();
 		//if (format == null)
 		//	format = "%h %l %u %t \"%r\" %s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\" %{Syn-Txid}i %v %D \"%{HOST}i\" %P %{mod_php_memory_usage}n";
 		//RequestLog requestLog = new CustomRequestLog(format);
@@ -61,8 +63,25 @@ public class MinimalServlets
                                                             IOException
         {
             response.setContentType("text/plain");
-            response.setStatus(HttpServletResponse.SC_OK);
-            response.getWriter().println("Hi.");
+
+			String path = request.getPathInfo();
+			System.out.println("_" + path + "_");
+			if (path == "/500")
+			{
+				System.out.println("Got 500.");
+            	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			}
+			else if (path == "/400")
+			{
+				System.out.println("Got 400.");
+            	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			}
+			else
+			{
+            	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            //	response.setStatus(HttpServletResponse.SC_OK);
+			}
+            response.getWriter().println(path);
         }
     }
 }

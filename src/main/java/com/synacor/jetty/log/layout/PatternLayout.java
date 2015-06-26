@@ -62,7 +62,10 @@ public class PatternLayout extends Layout
 		switch(directive)
 		{   
 			case 'b':
-				builder.add(new JettyConverter.BytesWritten());
+				builder.add(new JettyConverter.BytesWritten(false));
+				break;
+			case 'B':
+				builder.add(new JettyConverter.BytesWritten(true));
 				break;
 			case 'D':
 				builder.add(new JettyConverter.Latency());
@@ -79,8 +82,8 @@ public class PatternLayout extends Layout
 			case 'm':
 				builder.add(new JettyConverter.Method());
 			case 'n':
-				// "The contents of note Foobar from another module." // Maybe reuse as debug context?
-				builder.add(new JettyConverter.Literal("-"));
+				// "The contents of note Foobar from another module." // Doing request attribute instead.
+				builder.add(new JettyConverter.Attribute(token.getArgument()));
 				break;
 			case 'r':
 				builder.add(new JettyConverter.RequestString());

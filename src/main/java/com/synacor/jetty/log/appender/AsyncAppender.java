@@ -33,7 +33,7 @@ public class AsyncAppender extends Appender
 
 	private static Appender getDefaultAppender()
 	{
-		return new TestAppender("/var/tmp/jetty.log");
+		return new FileAppender("/var/tmp/jetty.log");
 	}
 
 	private static BlockingQueue<String> getDefaultQueue()
