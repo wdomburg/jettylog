@@ -22,7 +22,6 @@ public class Log4jRequestLog extends AbstractLifeCycle implements RequestLog
 	private Layout layout;
 	private Logger logger;
 
-	// Huh?  Why does this throw that?
 	public Log4jRequestLog()
 		throws FileNotFoundException
 	{

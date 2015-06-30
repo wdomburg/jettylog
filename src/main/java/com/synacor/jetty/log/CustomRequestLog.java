@@ -58,7 +58,7 @@ public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
 	}
 
 	@Override
-	public void log (Request request, Response response)
+	public void log(Request request, Response response)
 	{
 		appender.write(layout.format(request, response));
 	}
