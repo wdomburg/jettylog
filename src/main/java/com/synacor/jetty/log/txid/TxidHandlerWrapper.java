@@ -1,4 +1,4 @@
-package com.synacor.jetty.log;
+package com.synacor.jetty.log.txid;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,42 +14,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import com.synacor.jetty.log.Txid;
+import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.handler.HandlerWrapper;
 
-public class TxidFilter implements Filter
+public class TxidHandlerWrapper extends HandlerWrapper
 {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
+	private TxidSource txidSource;
+
+	public TxidHandlerWrapper()
+		throws ClassNotFoundException, IllegalAccessException, InstantiationException 
+	{   
+		this(UuidSource.class);
+	}
+
+	public TxidHandlerWrapper(String s)
+		throws ClassNotFoundException, IllegalAccessException, InstantiationException 
+	{   
+		txidSource = TxidSource.getInstance(s);
+	}
+
+	public TxidHandlerWrapper(Class c)
+		throws ClassNotFoundException, IllegalAccessException, InstantiationException 
+	{   
+		txidSource = TxidSource.getInstance(c);
 	}
 
 	@Override
-	public void destroy() {
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException
 	{
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-		String txid = httpRequest.getHeader("Syn-Txid");
-		
-		if (txid == null)
+		if (_handler!=null && isStarted())
 		{
-			txid = Txid.getTxid();
-			request.setAttribute("Syn-Txid", txid);
+			if (request.getHeader("Syn-Txid") == null)
+			{
+				HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(request);
+				String txid = txidSource.getTxid();
+				requestWrapper.addHeader("Syn-Txid", txid);
 
-			HeaderMapRequestWrapper wrappedRequest = new HeaderMapRequestWrapper(httpRequest);
-			wrappedRequest.addHeader("Syn-Txid", txid);
-			chain.doFilter(wrappedRequest, httpResponse);
+				_handler.handle(target,baseRequest, requestWrapper, response);
+			}
+			else
+			{
+				_handler.handle(target,baseRequest, request, response);
+			}
 		}
-		else
-		{
-			request.setAttribute("Syn-Txid", txid);
-			chain.doFilter(httpRequest, httpResponse);
-		}
+			
 	}
 
 	// http://stackoverflow.com/questions/2811769/adding-an-http-header-to-the-request-in-a-servlet-filter
