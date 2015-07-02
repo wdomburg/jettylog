@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
-import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 public class FileAppender extends Appender
@@ -44,7 +44,7 @@ public class FileAppender extends Appender
 		}
 	}
 
-	public void append(Event event)
+	public void append(JettyEvent event)
 	{
 		if (writer == null)
 		{

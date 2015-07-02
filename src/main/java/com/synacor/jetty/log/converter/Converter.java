@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.synacor.jetty.log.Event;
+
 public abstract class Converter
 {   
 	// Set default child of new converters to terminal singleton
@@ -15,7 +17,7 @@ public abstract class Converter
 	{
 		private final Converter child = null;
 
-		public String format(StringBuilder entry, Object ... args)
+		public String format(StringBuilder entry, Event event)
 		{
 			return entry.toString();
 		}
@@ -31,10 +33,10 @@ public abstract class Converter
 			this.dateFormat = dateFormat;
 		}
 
-		public String format(StringBuilder entry, Object ... args)
+		public String format(StringBuilder entry, Event event)
 		{
 			entry.append(dateFormat.format(new Date()));
-			return child.format(entry, args);
+			return child.format(entry, event);
 		}
 	}
 
@@ -47,32 +49,32 @@ public abstract class Converter
 			this.literal = literal;
 		}
 
-		public String format(StringBuilder entry, Object ... args)
+		public String format(StringBuilder entry, Event event)
 		{
 			entry.append(literal);
-			return child.format(entry, args);
+			return child.format(entry, event);
 		}
 	}
 
 	public static class ThreadName extends Converter
 	{
-		public String format(StringBuilder entry, Object ... args)
+		public String format(StringBuilder entry, Event event)
 		{   
-			entry.append(Thread.currentThread().getName());
-			return child.format(entry, args);
+			entry.append(event.threadName);
+			return child.format(entry, event);
 		}
 	}
 
-	public String format(Object ... args)
+	public String format(Event event)
 	{
 		StringBuilder sb = new StringBuilder();
 
-		return this.format(sb, args);
+		return this.format(sb, event);
 	}
 
-	public String format(StringBuilder entry, Object ... args)
+	public String format(StringBuilder entry, Event event)
 	{
-		return child.format(entry, args);
+		return child.format(entry, event);
 	}
 
 	public Converter setChild(Converter child)

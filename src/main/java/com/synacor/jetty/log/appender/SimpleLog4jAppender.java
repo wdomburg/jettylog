@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import org.apache.log4j.Logger;
 
 import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 public class SimpleLog4jAppender extends Appender
@@ -26,7 +27,7 @@ public class SimpleLog4jAppender extends Appender
 		return this;
 	}
 
-	public void append(Event event)
+	public void append(JettyEvent event)
 	{
 		int status = event.response.getStatus();
 

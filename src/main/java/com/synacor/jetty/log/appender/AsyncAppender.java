@@ -7,12 +7,12 @@ import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
-import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.JettyEvent;
 
 public class AsyncAppender extends Appender
 {
 	private Appender appender;
-	private BlockingQueue<Event> queue;
+	private BlockingQueue<JettyEvent> queue;
 	private WriterThread thread;
 
 	private static final Logger LOG = Log.getLogger(AsyncAppender.class);
@@ -22,15 +22,15 @@ public class AsyncAppender extends Appender
 		this(appender, getDefaultQueue());
 	}
 
-	public AsyncAppender(Appender appender, BlockingQueue<Event> queue)
+	public AsyncAppender(Appender appender, BlockingQueue<JettyEvent> queue)
 	{
 		this.appender = appender;
 		this.queue = queue;
 	}
 
-	private static BlockingQueue<Event> getDefaultQueue()
+	private static BlockingQueue<JettyEvent> getDefaultQueue()
 	{
-		return new BlockingArrayQueue<Event>(1024);
+		return new BlockingArrayQueue<JettyEvent>(1024);
 	}
 
 	private class WriterThread extends Thread
@@ -83,7 +83,7 @@ public class AsyncAppender extends Appender
 		}
 	}
 
-	public void append(Event event)
+	public void append(JettyEvent event)
 	{
 		if(!queue.offer(event))
 		{

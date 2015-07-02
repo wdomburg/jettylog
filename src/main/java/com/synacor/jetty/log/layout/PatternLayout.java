@@ -26,13 +26,12 @@ public class PatternLayout extends Layout
 		this(getPattern());
 	}
 
-
 	public PatternLayout(String pattern)
 	{
 		setPattern(pattern);
 	}
 
-	// no not like; revisit
+	// do not like; revisit
 	public static String getPattern()
 	{
 		String pattern = System.getProperty("com.synacor.jetty.log.format");
@@ -122,6 +121,6 @@ public class PatternLayout extends Layout
 
 	public String format(Event event)
 	{
-		return converter.format(event.request, event.response);
+		return converter.format(event);
 	}
 }

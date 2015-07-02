@@ -8,6 +8,9 @@ import org.eclipse.jetty.server.Authentication;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
 
+import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.JettyEvent;
+
 public abstract class JettyConverter extends Converter
 {   
 
@@ -20,11 +23,11 @@ public abstract class JettyConverter extends Converter
 			this.name = name;
 		}
 
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{
-			String value = (String) request.getAttribute(name);
+			String value = (String) event.request.getAttribute(name);
 			entry.append(value != null ? value : "-");
-			return child.format(entry, request, response);
+			return child.format(entry, event);
 		}
 	}
 
@@ -43,12 +46,12 @@ public abstract class JettyConverter extends Converter
 			this.empty = clf ? '-' : '0';
 		}
 	
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
 			// NOTE: This changes to .getHttpChannel().getBytesWritten() for Jetty 9.x
-			long bytes = response.getContentCount();
+			long bytes = event.response.getContentCount();
 			entry.append(bytes > 0 ? bytes : empty);
-			return child.format(entry, request, response);
+			return child.format(entry, event);
 		}
 	}
 
@@ -61,98 +64,98 @@ public abstract class JettyConverter extends Converter
 			this.header = header;
 		}
 
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{
-			String value = request.getHeader(header);
+			String value = event.request.getHeader(header);
 			entry.append(value != null ? value : "");
-			return child.format(entry, request, response);
+			return child.format(entry, event);
 		}
 	}
 
 	public static class Latency extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
 			long now = System.currentTimeMillis();
-			entry.append(now - request.getTimeStamp());
-			return child.format(entry, request, response);
+			entry.append(now - event.request.getTimeStamp());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class LatencySeconds extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{
 			long now = System.currentTimeMillis();
-			entry.append(now - request.getTimeStamp() / 1000);
-			return child.format(entry, request, response);
+			entry.append(now - event.request.getTimeStamp() / 1000);
+			return child.format(entry, event);
 		}
 	}
 
 	public static class Method extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getMethod());
-			return child.format(entry, request, response);
+			entry.append(event.request.getMethod());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class Protocol extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getProtocol());
-			return child.format(entry, request, response);
+			entry.append(event.request.getProtocol());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class RemoteAddress extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getRemoteAddr());
-			return child.format(entry, request, response);
+			entry.append(event.request.getRemoteAddr());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class RequestString extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getMethod());
+			entry.append(event.request.getMethod());
 			entry.append(" ");
-			entry.append(request.getRequestURI().toString());
+			entry.append(event.request.getRequestURI().toString());
 			entry.append(" ");
-			entry.append(request.getProtocol());
-			return child.format(entry, request, response);
+			entry.append(event.request.getProtocol());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class RequestUri extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getRequestURI().toString());
-			return child.format(entry, request, response);
+			entry.append(event.request.getRequestURI().toString());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class RequestUrl extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(request.getRequestURL().toString());
-			return child.format(entry, request, response);
+			entry.append(event.request.getRequestURL().toString());
+			return child.format(entry, event);
 		}
 	}
 
 	public static class Status extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			entry.append(response.getStatus());
-			return child.format(entry, request, response);
+			entry.append(event.response.getStatus());
+			return child.format(entry, event);
 		}
 	}
 
@@ -160,33 +163,30 @@ public abstract class JettyConverter extends Converter
 	{
 		private static final DateFormat dateFormat = new SimpleDateFormat("dd/MMM/YYYY:HH:mm:ss Z");
 
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
 			entry.append("[");
-			entry.append(dateFormat.format(request.getTimeStamp()));
+			entry.append(dateFormat.format(event.request.getTimeStamp()));
 			entry.append("]");
-			return child.format(entry, request, response);
+			return child.format(entry, event);
 		}
 	}
 
 	public static class Username extends JettyConverter
 	{
-		public String format(StringBuilder entry, Request request, Response response)
+		public String format(StringBuilder entry, JettyEvent event)
 		{   
-			Authentication authentication = request.getAuthentication();
+			Authentication authentication = event.request.getAuthentication();
 			String username = (authentication instanceof Authentication.User) ? ((Authentication.User)authentication).getUserIdentity().getUserPrincipal().getName() : "-";
 			entry.append(username);
-			return child.format(entry, request, response);
+			return child.format(entry, event);
 		}
 	}
 
-    public String format(StringBuilder entry, Object ... args)
-    {   
-		Request request = (Request) args[0];
-		Response response = (Response) args[1];
+	public String format(StringBuilder entry, Event event)
+	{
+			return this.format(entry, (JettyEvent) event);
+	}
 
-		return this.format(entry, request, response);
-    }
-
-	public abstract String format(StringBuilder entry, Request request, Response response);
+	public abstract String format(StringBuilder entry, JettyEvent event);
 }

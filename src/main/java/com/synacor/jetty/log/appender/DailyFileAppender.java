@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
-import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 public class DailyFileAppender extends FileAppender
@@ -35,7 +35,7 @@ public class DailyFileAppender extends FileAppender
 		nextRotate = cal.getTimeInMillis();
 	}
 
-	public void append(Event event)
+	public void append(JettyEvent event)
 	{
 		if (System.currentTimeMillis() >= nextRotate)
 		{

@@ -44,6 +44,6 @@ public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
 	@Override
 	public void log(Request request, Response response)
 	{
-		appender.append(new Event(request, response));
+		appender.append(new JettyEvent(request, response));
 	}
 }
