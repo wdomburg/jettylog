@@ -18,7 +18,6 @@ public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 
 	public TestRequestLog()
 	{
-
 		converter = new JettyConverter.RemoteAddress();
 
 		converter

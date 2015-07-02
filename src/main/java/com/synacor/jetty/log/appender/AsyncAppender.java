@@ -7,38 +7,30 @@ import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
+import com.synacor.jetty.log.Event;
+
 public class AsyncAppender extends Appender
 {
 	private Appender appender;
-	private BlockingQueue<String> queue;
+	private BlockingQueue<Event> queue;
 	private WriterThread thread;
 
 	private static final Logger LOG = Log.getLogger(AsyncAppender.class);
-
-	public AsyncAppender()
-	{
-		this(getDefaultAppender(), getDefaultQueue());
-	}
 
 	public AsyncAppender(Appender appender)
 	{
 		this(appender, getDefaultQueue());
 	}
 
-	public AsyncAppender(Appender appender, BlockingQueue<String> queue)
+	public AsyncAppender(Appender appender, BlockingQueue<Event> queue)
 	{
 		this.appender = appender;
 		this.queue = queue;
 	}
 
-	private static Appender getDefaultAppender()
+	private static BlockingQueue<Event> getDefaultQueue()
 	{
-		return new FileAppender("/var/tmp/jetty.log");
-	}
-
-	private static BlockingQueue<String> getDefaultQueue()
-	{
-		return new BlockingArrayQueue<String>(1024);
+		return new BlockingArrayQueue<Event>(1024);
 	}
 
 	private class WriterThread extends Thread
@@ -54,7 +46,7 @@ public class AsyncAppender extends Appender
 			{
 				try
 				{
-					appender.write(queue.take());
+					appender.append(queue.take());
 				}
 				catch (InterruptedException e)
 				{
@@ -91,9 +83,9 @@ public class AsyncAppender extends Appender
 		}
 	}
 
-	public void write(String entry)
+	public void append(Event event)
 	{
-		if(!queue.offer(entry))
+		if(!queue.offer(event))
 		{
 			LOG.warn("Log Queue overflow");
 		}

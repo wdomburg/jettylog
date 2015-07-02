@@ -7,19 +7,19 @@ import org.apache.log4j.Logger;
 import com.synacor.jetty.log.Event;
 import com.synacor.jetty.log.layout.Layout;
 
-public class Log4jAppender extends Appender
+public class SimpleLog4jAppender extends Appender
 {
 	private Layout layout;
 	private Logger logger;
 
-	public Log4jAppender(Layout layout)
+	public SimpleLog4jAppender(Layout layout)
 		throws FileNotFoundException
 	{   
 		logger = Logger.getLogger("jetty.request");
 		setLayout(layout);
 	}
 
-	public Log4jAppender setLayout(Layout layout)
+	public SimpleLog4jAppender setLayout(Layout layout)
 	{
 		this.layout = layout;
 
@@ -32,15 +32,15 @@ public class Log4jAppender extends Appender
 
 		if (status >= 500)
 		{   
-			logger.error(event);
+			logger.error(layout.format(event));
 		}
 		else if (status >= 400)
 		{   
-			logger.warn(event);
+			logger.warn(layout.format(event));
 		}
 		else
 		{   
-			logger.info(event);
+			logger.info(layout.format(event));
 		}
 	}
 

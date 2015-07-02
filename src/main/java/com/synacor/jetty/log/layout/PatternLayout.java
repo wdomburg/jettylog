@@ -1,5 +1,6 @@
 package com.synacor.jetty.log.layout;
 
+import com.synacor.jetty.log.Event;
 import com.synacor.jetty.log.converter.Converter;
 import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
@@ -119,8 +120,8 @@ public class PatternLayout extends Layout
 		}
 	}
 
-	public String format(Request request, Response response)
+	public String format(Event event)
 	{
-		return converter.format(request, response);
+		return converter.format(event.request, event.response);
 	}
 }

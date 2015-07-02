@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
+import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.layout.Layout;
+
 public class DailyFileAppender extends FileAppender
 {
 	private String prefix;
@@ -11,11 +14,11 @@ public class DailyFileAppender extends FileAppender
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat(".yyyy-MM-dd");
 
-	public DailyFileAppender(String prefix)
+	public DailyFileAppender(Layout layout, String prefix)
     {   
+		this.layout = layout;
     	this.prefix = prefix;
 		updateFilename();
-		
  	}
 	
 	private synchronized void updateFilename()
@@ -32,7 +35,7 @@ public class DailyFileAppender extends FileAppender
 		nextRotate = cal.getTimeInMillis();
 	}
 
-	public void write(String entry)
+	public void append(Event event)
 	{
 		if (System.currentTimeMillis() >= nextRotate)
 		{
@@ -46,7 +49,7 @@ public class DailyFileAppender extends FileAppender
 				LOG.warn("Could not rotate accesslog.");
 			}
 		}
-		super.write(entry);
+		super.append(event);
 	}
 
 }

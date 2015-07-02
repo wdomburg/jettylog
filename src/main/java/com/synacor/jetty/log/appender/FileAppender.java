@@ -1,26 +1,31 @@
 package com.synacor.jetty.log.appender;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-
-import java.io.FileNotFoundException;
 
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.log.Logger;
 
+import com.synacor.jetty.log.Event;
+import com.synacor.jetty.log.layout.Layout;
+
 public class FileAppender extends Appender
 {
+	protected Layout layout;
 	protected String filename;
 	protected PrintWriter writer;
 
 	protected static final Logger LOG = Log.getLogger(FileAppender.class);
 
-	public FileAppender()
+	// Only here to allow subclassing; e.g. DailyFileAppender
+	protected FileAppender()
 	{
 	}
 
-	public FileAppender(String filename)
+	public FileAppender(Layout layout, String filename)
 	{
+		this.layout = layout;
 		this.filename = filename;
 	}
 
@@ -39,7 +44,7 @@ public class FileAppender extends Appender
 		}
 	}
 
-	public void write(String entry)
+	public void append(Event event)
 	{
 		if (writer == null)
 		{
@@ -47,7 +52,7 @@ public class FileAppender extends Appender
 		}
 		else
 		{
-			writer.println(entry);
+			writer.println(layout.format(event));
 		}
 	}
 
