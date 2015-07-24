@@ -10,25 +10,35 @@ import org.eclipse.jetty.util.log.Logger;
 import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
+/** An appender instance that simply writes out to a file */
 public class FileAppender extends Appender
 {
+	/** The layout impleneted used to format events */
 	protected Layout layout;
+	/** The filename to write to */
 	protected String filename;
+	/** The writer used to output formatted events */
 	protected PrintWriter writer;
 
 	protected static final Logger LOG = Log.getLogger(FileAppender.class);
 
-	// Only here to allow subclassing; e.g. DailyFileAppender
+	/** An empty constructer intended for subclassing */
 	protected FileAppender()
 	{
 	}
 
+	/**
+	  * Creates an appender with a fixed layout and filename
+      */
 	public FileAppender(Layout layout, String filename)
 	{
 		this.layout = layout;
 		this.filename = filename;
 	}
 
+	/**
+	  * Opens a writer for the currently configured filename
+	  */
 	protected synchronized void open()
 	{
 		if (writer != null)
@@ -44,6 +54,11 @@ public class FileAppender extends Appender
 		}
 	}
 
+	/**
+	  * Writes out the event
+	  *
+	  * @param event The jetty event
+	  */
 	public void append(JettyEvent event)
 	{
 		if (writer == null)
@@ -56,11 +71,13 @@ public class FileAppender extends Appender
 		}
 	}
 
+	/** Sets up the appender by opening the configured file */
 	public synchronized void doStart()
 	{
 		open();
 	}
 
+	/** Shuts down the appender by closing the writer */
 	public void doStop()
 	{
 		writer.close();

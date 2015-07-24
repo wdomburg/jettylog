@@ -4,14 +4,12 @@ import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 
-//import org.eclipse.jetty.util.annotation.ManagedAttribute;
-//import org.eclipse.jetty.util.annotation.ManagedObject;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;;
 
 import com.synacor.jetty.log.converter.Converter;
 import com.synacor.jetty.log.converter.JettyConverter;
 
-//@ManagedObject("Test request log")
+/* An example of building a converter programatically */
 public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 {
 	private Converter converter;

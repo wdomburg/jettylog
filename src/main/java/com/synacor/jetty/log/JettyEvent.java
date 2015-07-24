@@ -3,6 +3,7 @@ package com.synacor.jetty.log;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
 
+/** An Event implementation that encapsulates a response / request pair */
 public class JettyEvent extends Event
 {
 	public final Request request;

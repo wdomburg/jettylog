@@ -7,20 +7,28 @@ import java.util.Calendar;
 import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
+/** FileAppender class that supports daily rotation */
 public class DailyFileAppender extends FileAppender
 {
+	/** The path prefix used for filename generation */
 	private String prefix;
+	/** The time in millisections of the next rotation */
 	private long nextRotate; 
 
+	/** The extension format used for filename generation */
 	private SimpleDateFormat dateFormat = new SimpleDateFormat(".yyyy-MM-dd");
 
+	/**
+	  * Create an instance with a specified layout and target
+	  */
 	public DailyFileAppender(Layout layout, String prefix)
     {   
 		this.layout = layout;
     	this.prefix = prefix;
 		updateFilename();
  	}
-	
+
+	/** Generates a new filename according to the current date and sets the next rotate time */
 	private synchronized void updateFilename()
 	{
 		Calendar cal = Calendar.getInstance();
@@ -35,6 +43,11 @@ public class DailyFileAppender extends FileAppender
 		nextRotate = cal.getTimeInMillis();
 	}
 
+	/**
+	  * Checks if filename needs to be rotate then writes out the event
+	  *
+	  * @param event The jetty event
+	  */
 	public void append(JettyEvent event)
 	{
 		if (System.currentTimeMillis() >= nextRotate)
