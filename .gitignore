@@ -2,3 +2,6 @@ target/
 pkg/
 .*.sw?
 *.class
+.idea/
+jettylog.iml
+jettylog.ipr
