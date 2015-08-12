@@ -10,41 +10,73 @@ import com.synacor.jetty.log.format.Token;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
 
+/** Layout implementation using Apache-style LogFormat pattern strings */
 public class PatternLayout extends Layout
 {
+	/** Apache Common Log Format */
 	public static final String COMMON = "%h %l %u %t \"%r\" %s %b";
+	/** Apache Combined Log Format*/
 	public static final String COMBINED = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"";
-    //FIXME: handle %>s vs %s
-	//public static final String COMMON = "%h %l %u %t \"%r\" %>s %b";
-	//public static final String COMBINED = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"";
+    //TODO: Add modifiers; e.g. %>s vs %s
 
+	/** The currently configured pattern */
 	private String pattern;
+	/** The generated pattern converter */
 	private Converter converter;
 
+	/**
+	 * Construct a layout with default pattern
+	 */
 	public PatternLayout()
 	{
-		this(getPattern());
+		this(getDefaultPattern());
 	}
 
+	/**
+	 * Construct a layout with a specific pattern
+	 *
+	 * @param pattern A pattern string
+	 */
 	public PatternLayout(String pattern)
 	{
 		setPattern(pattern);
 	}
 
-	// do not like; revisit
-	public static String getPattern()
+	/**
+	 * Read pattern from system properties or return default
+	 *
+	 * @return String A default pattern string
+	 */
+	public static String getDefaultPattern()
 	{
 		String pattern = System.getProperty("com.synacor.jetty.log.format");
 
 		return (pattern == null) ? COMMON : pattern;
 	}
 
+	/**
+	 * Getter for pattern string
+	 *
+	 * @return String The configured pattern string
+	 */
+	public String getPattern()
+	{
+		return pattern;
+	}
+
+	/**
+	 * Setter for pattern string
+	 *
+	 * @param pattern A pattern string
+	 */
 	public void setPattern(String pattern)
 	{
 		this.pattern = pattern;
 
+		// Create a new format from the pattern string
 		Format format = new Format(pattern);
 
+		// Create a converter from the format string
 		ConverterBuilder builder = new ConverterBuilder();
 
 		for (Token token: format.getTokens())
@@ -52,9 +84,16 @@ public class PatternLayout extends Layout
 			addToken(builder, token);
 		}
 
+		// Build the converter
 		converter = builder.build();
 	}
 
+	/**
+	 * Add an individual token to the converter chain
+	 *
+	 * @param builder The converter builder
+	 * @param token The new token
+	 */
 	private void addToken(ConverterBuilder builder, Token token)
 	{   
 		char directive = token.getDirective();
@@ -119,6 +158,12 @@ public class PatternLayout extends Layout
 		}
 	}
 
+	/**
+	 * Format an event with the converter
+	 *
+	 * @param event A log event
+	 * @return String The formatted log entry
+	 */
 	public String format(Event event)
 	{
 		return converter.format(event);

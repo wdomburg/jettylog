@@ -9,8 +9,15 @@ public abstract class Appender
 {
 	/** Write out an event */
 	public abstract void append(JettyEvent event);
-	/** Perform any necessary initialization tasks */
-	public abstract void doStart() throws FileNotFoundException;
-	/** Perform any necessary shutdown tasks */
-	public abstract void doStop();
+
+	/** Override for any necessary initialization tasks */
+	public void doStart()
+		throws FileNotFoundException
+	{
+	}
+
+	/** Override for any necessary shutdown tasks */
+	public void doStop()
+	{
+	}
 }

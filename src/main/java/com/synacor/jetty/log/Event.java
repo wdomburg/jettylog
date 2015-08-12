@@ -10,6 +10,7 @@ public class Event
      */
 	public final String threadName;
 
+	/** Constructs a generic event object */
 	public Event()
 	{
 		this.threadName = Thread.currentThread().getName();

@@ -7,48 +7,54 @@ import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;;
 
 import com.synacor.jetty.log.converter.Converter;
+import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
 
-/* An example of building a converter programatically */
+/** Example of building a converter programatically */
 public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 {
+	/** Holds the final converter */
 	private Converter converter;
 
+	/** Constructs a request log using Apache Common Log format */
 	public TestRequestLog()
 	{
-		converter = new JettyConverter.RemoteAddress();
+		ConverterBuilder builder = new ConverterBuilder();
 
-		converter
-			.setChild(new JettyConverter.Literal(" - "))
-			.setChild(new JettyConverter.Username())
-			.setChild(new JettyConverter.Literal(" "))
-			.setChild(new JettyConverter.TimeReceived())
-			.setChild(new JettyConverter.Literal(" \""))
-			.setChild(new JettyConverter.RequestString())
-			.setChild(new JettyConverter.Literal("\" "))
-			.setChild(new JettyConverter.Status())
-			.setChild(new JettyConverter.Literal(" "))
-			.setChild(new JettyConverter.BytesWritten())
-			.setChild(new JettyConverter.Literal(" \""))
-			.setChild(new JettyConverter.Header("Referer"))
-			.setChild(new JettyConverter.Literal("\" \""))
-			.setChild(new JettyConverter.Header("User-Agent"))
-			.setChild(new JettyConverter.Literal("\" \""))
-			.setChild(new JettyConverter.Header("Cookie"))
-			.setChild(new JettyConverter.Literal("\" "))
-			.setChild(new JettyConverter.Header("Syn-Txid"))
-			.setChild(new JettyConverter.Literal(" "))
-			.setChild(new JettyConverter.Literal("-")) //FIXME: should be "canonical server name"
-			.setChild(new JettyConverter.Literal(" "))
-			.setChild(new JettyConverter.Latency())
-			.setChild(new JettyConverter.Literal(" \""))
-			.setChild(new JettyConverter.Header("HOST"))
-			.setChild(new JettyConverter.Literal("\" "))
-			.setChild(new JettyConverter.ThreadName())
-			.setChild(new JettyConverter.Literal(" -"));
+		builder	
+			.add(new JettyConverter.RemoteAddress())
+			.add(new Converter.Literal(" - "))
+			.add(new JettyConverter.Username())
+			.add(new Converter.Literal(" "))
+			.add(new JettyConverter.TimeReceived())
+			.add(new Converter.Literal(" \""))
+			.add(new JettyConverter.RequestString())
+			.add(new Converter.Literal("\" "))
+			.add(new JettyConverter.Status())
+			.add(new Converter.Literal(" "))
+			.add(new JettyConverter.BytesWritten())
+			.add(new Converter.Literal(" \""))
+			.add(new JettyConverter.Header("Referer"))
+			.add(new Converter.Literal("\" \""))
+			.add(new JettyConverter.Header("User-Agent"))
+			.add(new Converter.Literal("\" \""))
+			.add(new JettyConverter.Header("Cookie"))
+			.add(new Converter.Literal("\" "))
+			.add(new JettyConverter.Header("Syn-Txid"))
+			.add(new Converter.Literal(" "))
+			.add(new Converter.Literal("-")) //FIXME: should be "canonical server name"
+			.add(new Converter.Literal(" "))
+			.add(new JettyConverter.Latency())
+			.add(new Converter.Literal(" \""))
+			.add(new JettyConverter.Header("HOST"))
+			.add(new Converter.Literal("\" "))
+			.add(new JettyConverter.ThreadName())
+			.add(new Converter.Literal(" -"));
 
+		converter = builder.build();
 	}
 
+	/** Log the formated log event to stdout */
 	@Override
 	public void log(Request request, Response response)
 	{
