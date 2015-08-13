@@ -7,7 +7,11 @@ import java.io.IOException;
 /** Base class for appender implementations */
 public abstract class Appender
 {
-	/** Write out an event */
+	/**
+	 * Write out an event
+	 *
+	 * @param event The log event to process
+	 */
 	public abstract void append(JettyEvent event);
 
 	/** Override for any necessary initialization tasks */

@@ -29,6 +29,9 @@ public class FileAppender extends Appender
 
 	/**
 	  * Creates an appender with a fixed layout and filename
+	  *
+	  * @param layout The layout implementation to use
+	  * @param filename The filename to output to
       */
 	public FileAppender(Layout layout, String filename)
 	{

@@ -20,6 +20,9 @@ public class DailyFileAppender extends FileAppender
 
 	/**
 	  * Create an instance with a specified layout and target
+	  *
+	  * @param layout The layout implementation to use
+	  * @param prefix The file prefix to use; will append the data in ISO-8601 format
 	  */
 	public DailyFileAppender(Layout layout, String prefix)
     {   
@@ -64,5 +67,4 @@ public class DailyFileAppender extends FileAppender
 		}
 		super.append(event);
 	}
-
 }

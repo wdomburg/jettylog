@@ -1,7 +1,11 @@
 package com.synacor.jetty.log4j;
 
+import java.text.ParseException;
+
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.log4j.spi.ErrorHandler;
+
+import org.apache.log4j.helpers.LogLog;
 
 import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.PatternLayout;
@@ -22,7 +26,14 @@ public class JettyLayout extends org.apache.log4j.Layout
 
 	public void setPattern(String pattern)
 	{
-		layout.setPattern(pattern);
+		try
+		{
+			layout.setPattern(pattern);
+		}
+		catch (ParseException e)
+		{
+			LogLog.error("Could not parse pattern: " + e.getMessage());
+		}
 	}
 
 	public String format(LoggingEvent event)

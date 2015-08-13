@@ -1,11 +1,15 @@
 package com.synacor.jetty.log.layout;
 
+import java.text.ParseException;
+
 import com.synacor.jetty.log.Event;
 import com.synacor.jetty.log.converter.Converter;
 import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
 import com.synacor.jetty.log.format.Format;
 import com.synacor.jetty.log.format.Token;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Logger;
 
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
@@ -24,6 +28,9 @@ public class PatternLayout extends Layout
 	/** The generated pattern converter */
 	private Converter converter;
 
+    /** The Jetty logger for logging initialization and faults */
+    private static final Logger LOG = Log.getLogger(PatternLayout.class);
+
 	/**
 	 * Construct a layout with default pattern
 	 */
@@ -39,7 +46,14 @@ public class PatternLayout extends Layout
 	 */
 	public PatternLayout(String pattern)
 	{
-		setPattern(pattern);
+		try
+		{
+			setPattern(pattern);
+		}
+		catch (ParseException e)
+		{
+			LOG.warn(e);
+		}
 	}
 
 	/**
@@ -70,6 +84,7 @@ public class PatternLayout extends Layout
 	 * @param pattern A pattern string
 	 */
 	public void setPattern(String pattern)
+		throws ParseException
 	{
 		this.pattern = pattern;
 

@@ -4,17 +4,43 @@ import java.lang.StringBuilder;
 import java.util.List;
 import java.util.ArrayList;
 import java.text.StringCharacterIterator;
+import java.text.ParseException;
 
+/**
+  * Parses a string into a format object using a simple state machine.
+  *
+  * The format is patterened after the LogFormat strings used in
+  * the Apache httpd project.
+  *
+  * Non-literal directives are specified with a '%' character and
+  * can be prefixed with an optional argument.
+  */
 public class Parser 
 {
+	/** Represents the state of the parser */
 	public static enum State { LITERAL, FORMAT, DIRECTIVE, ARGUMENT};
 
+	/**
+	 * Constructs a new Format object from the pattern string
+	 *
+	 * @param pattern The pattern string
+	 * @return Format The constructed format
+	 */
 	public static Format parse(String pattern)
+		throws ParseException
 	{
 		return parse(new Format(), pattern);
 	}
 
+	/**
+	 * Parses a pattern string into an existing Format object
+	 *
+	 * @param format The incomplete format
+	 * @param pattern The pattern string
+	 * @return Format The completed format
+	 */
 	public static Format parse(Format format, String pattern)
+		throws ParseException
 	{
 		StringBuilder buffer = new StringBuilder();
 		String param = null;
@@ -44,8 +70,7 @@ public class Parser
 							state = State.LITERAL;
 							break;
 						default:
-							// FIXME:  Throw exception here
-							System.out.println("Got a bad argument");
+							throw new ParseException("Found bad argument: " + pattern, iter.getIndex());
 					}
 
 					break;
@@ -59,8 +84,7 @@ public class Parser
 							buffer.append(c);
 							break;
 						default:
-							// FIXME: Throw exception here
-							System.out.println("Unexpected {");
+							throw new ParseException("Found unxpected {: " + pattern, iter.getIndex());
 					}
 
 					break;
@@ -83,8 +107,7 @@ public class Parser
 							state = State.DIRECTIVE;
 							break;
 						default:
-							// FIXME: Throw exception here
-							System.out.println("Unexpected {");
+							throw new ParseException("Found unxpected }: " + pattern, iter.getIndex());
 					}
 
 					break;
@@ -104,8 +127,7 @@ public class Parser
 							break;
 						case FORMAT:
 						case ARGUMENT:
-							// FIXME:  Throw exception here
-							System.out.println("Got a bad argument");
+							throw new ParseException("Found bad argument: " + pattern, iter.getIndex());
 					}
 
 					break;
@@ -148,8 +170,7 @@ public class Parser
 				format.addDirective(buffer, param);
 				break;
 			default:
-				// FIXME:  Throw exception here
-				System.out.println("Unexpected end of pattern");
+				throw new ParseException("Unexpected end of pattern: " + pattern, iter.getIndex());
 		}
 
 		return format;

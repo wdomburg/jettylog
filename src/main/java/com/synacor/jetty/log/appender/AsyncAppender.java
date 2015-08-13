@@ -44,7 +44,13 @@ public class AsyncAppender extends Appender
 		this.queue = queue;
 	}
 
-	/** Returns a reasonable default queue */
+	/**
+	 * Returns a reasonable default queue
+	 *
+	 * We borrow the implementation used by Jetty in the AsyncNCSARequestLog
+	 *
+	 * @return BlockingQueue The default queue implementation
+	 */
 	private static BlockingQueue<JettyEvent> getDefaultQueue()
 	{
 		return new BlockingArrayQueue<JettyEvent>(1024);
@@ -53,13 +59,13 @@ public class AsyncAppender extends Appender
 	/** A thread object responsible for writing out events asynchronously */
 	private class WriterThread extends Thread
 	{
-		/** Constructor */
+		/** Construct the writer thread */
 		WriterThread()
 		{
 			setName("AsyncAppender");
 		}
 
-		/** Event loop that writes out events to the wrapped appender until interuppted */
+		/** Run the event loop that writes to the wrapped appender until interuppted */
 		public void run()
 		{
 			while(!isInterrupted())

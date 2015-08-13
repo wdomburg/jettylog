@@ -7,6 +7,7 @@ import java.lang.StringBuilder;
 import java.util.List;
 import java.util.ArrayList;
 import java.text.StringCharacterIterator;
+import java.text.ParseException;
 
 /** Class that represents a logging format */
 public class Format
@@ -24,6 +25,7 @@ public class Format
 	 * @param pattern A pattern string to use for constructing the format
 	 */
 	public Format(String pattern)
+		throws ParseException
 	{
 		Parser.parse(this, pattern);
 	}
