@@ -1,6 +1,6 @@
 package com.synacor.jetty.log.appender;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
@@ -22,7 +22,7 @@ public class Log4jLineAppender extends Appender
 	 * @param layout A layout class for formating events
 	 */
 	public Log4jLineAppender(Layout layout)
-		throws FileNotFoundException
+		throws IOException
 	{   
 		logger = Logger.getLogger("jetty.request");
 		setLayout(layout);

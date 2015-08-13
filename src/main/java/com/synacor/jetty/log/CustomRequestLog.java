@@ -12,7 +12,7 @@ import com.synacor.jetty.log.appender.Appender;
 import com.synacor.jetty.log.layout.Layout;
 import com.synacor.jetty.log.layout.PatternLayout;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /** A Jetty RequestLog implementation that supports pluggable appender implementations. */
 public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
@@ -25,7 +25,7 @@ public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
 	 * @param appender An appender instance.
 	 */
 	public CustomRequestLog(Appender appender)
-		throws FileNotFoundException
+		throws IOException
 	{
 		setAppender(appender);
 	}
@@ -35,10 +35,10 @@ public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
 	 *
 	 * @param appender An appender instance.
 	 * @return CustomerRequestLog The object being configured.
-	 * @throws FileNotFoundException when an appender cannot open configured output.
+	 * @throws IOException when an appender cannot open configured output.
 	 */
 	public CustomRequestLog setAppender(Appender appender)
-		throws FileNotFoundException
+		throws IOException
 	{
 		this.appender = appender;
 		appender.doStart();

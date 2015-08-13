@@ -1,6 +1,6 @@
 package com.synacor.jetty.log.appender;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +15,7 @@ public class Log4jAppender extends Appender
 
 	/** Creates an an instance and the underlying log4j logger */
 	public Log4jAppender()
-		throws FileNotFoundException
+		throws IOException
 	{   
 		logger = Logger.getLogger("jetty.request");
 	}

@@ -1,6 +1,6 @@
 package com.synacor.jetty.log.appender;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 import org.eclipse.jetty.util.BlockingArrayQueue;
@@ -82,7 +82,7 @@ public class AsyncAppender extends Appender
 
 	/** Sets up the appender by initializing the wrapped appender and starting the writer */
 	public synchronized void doStart()
-		throws FileNotFoundException
+		throws IOException
 	{
 		appender.doStart();
 		thread = new WriterThread();

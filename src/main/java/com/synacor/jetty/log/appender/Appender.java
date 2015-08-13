@@ -2,7 +2,7 @@ package com.synacor.jetty.log.appender;
 
 import com.synacor.jetty.log.JettyEvent;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /** Base class for appender implementations */
 public abstract class Appender
@@ -12,7 +12,7 @@ public abstract class Appender
 
 	/** Override for any necessary initialization tasks */
 	public void doStart()
-		throws FileNotFoundException
+		throws IOException
 	{
 	}
 
