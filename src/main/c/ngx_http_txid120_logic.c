@@ -16,7 +16,7 @@ void ngx_http_txid120_logic(FILE* urandom, uint8_t* txid120) {
   }
 
   // fill remaining 8 bytes with random data
-  fread(&txid[7], 8, 1, urandom);
+  (void)(fread(&txid[7], 8, 1, urandom)+1);
 
   // encode as base64
   for (i=0; i<5; i++) {
