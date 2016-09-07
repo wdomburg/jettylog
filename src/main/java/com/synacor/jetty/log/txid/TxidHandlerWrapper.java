@@ -51,6 +51,7 @@ public class TxidHandlerWrapper extends HandlerWrapper
 				HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(request);
 				String txid = txidSource.getTxid();
 				requestWrapper.addHeader("Syn-Txid", txid);
+				baseRequest.setAttribute("com.synacor.jetty.log._headers.Syn-Txid", txid);
 
 				_handler.handle(target,baseRequest, requestWrapper, response);
 			}

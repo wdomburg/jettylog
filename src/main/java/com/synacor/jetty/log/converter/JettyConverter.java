@@ -3,6 +3,7 @@ package com.synacor.jetty.log.converter;
 import java.lang.StringBuilder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 import org.eclipse.jetty.server.Authentication;
 import org.eclipse.jetty.server.Response;
@@ -67,6 +68,10 @@ public abstract class JettyConverter extends Converter
 		public String format(StringBuilder entry, JettyEvent event)
 		{
 			String value = event.request.getHeader(header);
+			if (value == null)
+			{
+				value = Objects.toString(event.request.getAttribute("com.synacor.jetty.log._headers." + header), null);
+			}
 			entry.append(value != null ? value : "");
 			return child.format(entry, event);
 		}
