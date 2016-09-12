@@ -40,7 +40,7 @@ public class TestRequestLog extends AbstractLifeCycle implements RequestLog
 			.add(new Converter.Literal("\" \""))
 			.add(new JettyConverter.Header("Cookie"))
 			.add(new Converter.Literal("\" "))
-			.add(new JettyConverter.Header("Syn-Txid"))
+			.add(new JettyConverter.Header("X-Transaction-ID"))
 			.add(new Converter.Literal(" "))
 			.add(new Converter.Literal("-")) //FIXME: should be "canonical server name"
 			.add(new Converter.Literal(" "))

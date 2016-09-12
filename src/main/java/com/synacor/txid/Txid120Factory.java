@@ -1,6 +1,6 @@
-package com.synacor.jetty.log.txid;
+package com.synacor.txid;
 
-public class Txid120Source extends TxidSource
+public class Txid120Factory extends TxidFactory
 {
 	public native static void init();
 	public native String getTxid();

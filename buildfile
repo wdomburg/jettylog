@@ -3,7 +3,7 @@
 repositories.remote << 'http://repo1.maven.org/maven2'
 
 # Version number for this release
-VERSION_NUMBER = '0.0.1'
+VERSION_NUMBER = '0.0.2'
 
 desc 'Synacor Jetty modules'
 define 'jettylog' do

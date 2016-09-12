@@ -1,14 +1,14 @@
-package com.synacor.jetty.log.txid;
+package com.synacor.txid;
 
 import java.lang.ClassNotFoundException;
 import java.lang.IllegalAccessException;
 import java.lang.InstantiationException;
 
-public abstract class TxidSource
+public abstract class TxidFactory
 {
 	public abstract String getTxid();
 
-	public static TxidSource getInstance(String className)
+	public static TxidFactory getInstance(String className)
 		throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		if (className == null || className.equals(""))
@@ -17,9 +17,9 @@ public abstract class TxidSource
 		return getInstance(Class.forName(className));
 	}
 
-	public static TxidSource getInstance(Class source)
+	public static TxidFactory getInstance(Class source)
 		throws IllegalAccessException, InstantiationException
 	{
-		return (TxidSource) source.newInstance();
+		return (TxidFactory) source.newInstance();
 	}
 }

@@ -1,8 +1,8 @@
-package com.synacor.jetty.log.txid;
+package com.synacor.txid;
 
 import java.util.UUID;
 
-public class UuidSource extends TxidSource
+public class UuidFactory extends TxidFactory
 {
 	public String getTxid()
 	{

@@ -58,19 +58,19 @@ public abstract class JettyConverter extends Converter
 
 	public static class Header extends JettyConverter
 	{
-		private final String header;
+		private final String headerName;
 
-		public Header(String header)
+		public Header(String headerName)
 		{
-			this.header = header;
+			this.headerName = headerName;
 		}
 
 		public String format(StringBuilder entry, JettyEvent event)
 		{
-			String value = event.request.getHeader(header);
+			String value = event.request.getHeader(headerName);
 			if (value == null)
 			{
-				value = Objects.toString(event.request.getAttribute("com.synacor.jetty.log._headers." + header), null);
+				value = Objects.toString(event.request.getAttribute("com.synacor.jetty.log.headers." + headerName), null);
 			}
 			entry.append(value != null ? value : "");
 			return child.format(entry, event);
