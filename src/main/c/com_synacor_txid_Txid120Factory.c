@@ -3,8 +3,6 @@
 #include "ngx_http_txid120_logic.h"
 #include "com_synacor_txid_Txid120Factory.h"
 
-// gcc -shared -fPIC -I/opt/zimbra/jdk-1.7.0_51/include/ -I/opt/zimbra/jdk-1.7.0_51/include/linux/ -o /var/tmp/libtxid-java.so com_synacor_txid_Txid120Factory.c ngx_http_txid120_logic.c
-
 static FILE* urandom = NULL;
 
 void Java_com_synacor_txid_Txid120Factory_init (JNIEnv *env, jclass this)
