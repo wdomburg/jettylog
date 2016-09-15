@@ -8,6 +8,8 @@ public abstract class TxidFactory
 {
 	public abstract String getTxid();
 
+	public static TxidFactory defaultInstance = new UuidFactory();
+
 	public static TxidFactory getInstance(String className)
 		throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
@@ -21,5 +23,10 @@ public abstract class TxidFactory
 		throws IllegalAccessException, InstantiationException
 	{
 		return (TxidFactory) source.newInstance();
+	}
+
+	public static TxidFactory getDefaultInstance()
+	{
+		return defaultInstance;
 	}
 }
