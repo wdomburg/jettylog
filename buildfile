@@ -10,10 +10,10 @@ define 'jettylog' do
         project.group = 'com.synacor.jetty'
         project.version = VERSION_NUMBER
 		compile.with 'javax.servlet:servlet-api:jar:2.5'
-		compile.with 'org.eclipse.jetty:jetty-annotations:jar:7.6.12.v20130726'
-		compile.with 'org.eclipse.jetty:jetty-server:jar:7.6.12.v20130726'
-		compile.with 'org.eclipse.jetty:jetty-util:jar:7.6.12.v20130726'
-		compile.with 'log4j:log4j:jar:1.2.17'
+		#compile.with 'org.eclipse.jetty:jetty-annotations:jar:7.6.12.v20130726'
+		compile.with 'org.eclipse.jetty:jetty-server:jar:9.3.5.v20151012'
+		compile.with 'org.eclipse.jetty:jetty-util:jar:9.3.5.v20151012'
+		compile.with 'log4j:log4j:jar:1.2.16'
 		package(:jar, :id => 'jettylog')
 		#compile.options.lint = 'all'
 end

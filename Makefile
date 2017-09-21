@@ -1,6 +1,6 @@
 all: jettlog.jar libtxid-java.so 
 
-jettlog.jar:
+jettylog.jar:
 	buildr package
 
 libtxid-java.so:
