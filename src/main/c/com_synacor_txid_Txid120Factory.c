@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017. Synacor, Inc.
+ */
+
 #include <stdio.h>
 #include "jni.h"
 #include "ngx_http_txid120_logic.h"

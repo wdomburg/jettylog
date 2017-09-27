@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017. Synacor, Inc.
+ */
+
 package com.synacor.jetty.log4j;
 
 import java.text.ParseException;
