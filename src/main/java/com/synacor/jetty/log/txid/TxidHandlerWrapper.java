@@ -70,11 +70,11 @@ public class TxidHandlerWrapper extends HandlerWrapper
 				requestWrapper.addHeader(headerName, txid);
 				baseRequest.setAttribute("com.synacor.jetty.log.headers." + headerName, txid);
 
-				_handler.handle(target,baseRequest, requestWrapper, response);
+				_handler.handle(target, baseRequest, requestWrapper, response);
 			}
 			else
 			{
-				_handler.handle(target,baseRequest, request, response);
+				_handler.handle(target, baseRequest, request, response);
 			}
 		}
 	}

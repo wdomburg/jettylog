@@ -15,12 +15,12 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
 
-import com.synacor.jetty.log.TxidFilter;
-import com.synacor.jetty.log.TestRequestLog;
-import com.synacor.jetty.log.CustomRequestLog;
-import com.synacor.jetty.log.Log4jRequestLog;
+import com.synacor.jetty.log.txid.TxidFilter;
 
-public class MinimalServlets
+import com.synacor.jetty.log.CustomRequestLog;
+import com.synacor.jetty.log.appender.Log4jAppender;
+
+public class Log4j
 {
     public static void main( String[] args ) throws Exception
     {
@@ -30,17 +30,8 @@ public class MinimalServlets
 		handler.addFilterWithMapping(TxidFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         handler.addServletWithMapping(HelloServlet.class, "/*");
 
-		String format = System.getProperty("com.synacor.jetty.log.format");
-
-		RequestLog requestLog = new Log4jRequestLog();
-
-		//RequestLog requestLog = new CustomRequestLog();
-		//if (format == null)
-		//	format = "%h %l %u %t \"%r\" %s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\" %{Syn-Txid}i %v %D \"%{HOST}i\" %P %{mod_php_memory_usage}n";
-		//RequestLog requestLog = new CustomRequestLog(format);
-
-		//RequestLog requestLog = new CustomRequestLog("%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\" %{Syn-Txid}i %v %D \"%{HOST}i\" %P %{mod_php_memory_usage}n");
-		//RequestLog requestLog = new TestRequestLog();
+		Log4jAppender appender = new Log4jAppender();
+		RequestLog requestLog = new CustomRequestLog(appender);
 		RequestLogHandler logHandler = new RequestLogHandler();
 		logHandler.setRequestLog(requestLog);
 
@@ -54,6 +45,7 @@ public class MinimalServlets
         server.join();
     }
 
+/*
     @SuppressWarnings("serial")
     public static class HelloServlet extends HttpServlet
     {
@@ -65,23 +57,21 @@ public class MinimalServlets
             response.setContentType("text/plain");
 
 			String path = request.getPathInfo();
-			System.out.println("_" + path + "_");
-			if (path == "/500")
+
+			switch(path)
 			{
-				System.out.println("Got 500.");
-            	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				case "/500":
+            		response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					break;
+				case "/400":
+            		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					break;
+				default:
+            		response.setStatus(HttpServletResponse.SC_OK);
 			}
-			else if (path == "/400")
-			{
-				System.out.println("Got 400.");
-            	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			}
-			else
-			{
-            	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            //	response.setStatus(HttpServletResponse.SC_OK);
-			}
+
             response.getWriter().println(path);
         }
     }
+*/
 }
