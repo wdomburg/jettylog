@@ -1,9 +1,5 @@
 import java.io.IOException;
 
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.handler.HandlerCollection;
@@ -15,17 +11,16 @@ import com.synacor.jetty.log.appender.Appender;
 import com.synacor.jetty.log.appender.PrintStreamAppender;
 import com.synacor.jetty.log.layout.Layout;
 import com.synacor.jetty.log.layout.PatternLayout;
-import com.synacor.jetty.log.txid.TxidFilter;
+import com.synacor.jetty.log.txid.TxidHandlerWrapper;
 
 public class Custom
 {
-    public static void main( String[] args ) throws Exception
-    {
-        Server server = new Server(8080);
+	public static void main( String[] args ) throws Exception
+	{
+		Server server = new Server(8080);
 
-        ServletHandler handler = new ServletHandler();
-		handler.addFilterWithMapping(TxidFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
-        handler.addServletWithMapping(HelloServlet.class, "/*");
+		ServletHandler handler = new ServletHandler();
+		handler.addServletWithMapping(HelloServlet.class, "/*");
 
 		String format = System.getProperty("com.synacor.jetty.log.format");
 		if (format == null)
@@ -33,18 +28,21 @@ public class Custom
 
 		Layout layout = new PatternLayout(format);
 		Appender appender = new PrintStreamAppender(layout);
-		RequestLog requestLog = new CustomRequestLog(appender);
 
+		RequestLog requestLog = new CustomRequestLog(appender);
 		RequestLogHandler logHandler = new RequestLogHandler();
 		logHandler.setRequestLog(requestLog);
 
+		TxidHandlerWrapper txidHandler = new TxidHandlerWrapper();
+		txidHandler.setHandler(logHandler);
+
 		HandlerCollection handlers = new HandlerCollection();
 		handlers.addHandler(handler);
-		handlers.addHandler(logHandler);
+		handlers.addHandler(txidHandler);
 
-        server.setHandler(handlers);
+		server.setHandler(handlers);
 
-        server.start();
-        server.join();
-    }
+		server.start();
+		server.join();
+	}
 }
