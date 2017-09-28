@@ -19,7 +19,9 @@ import com.synacor.jetty.log.layout.PatternLayout;
 import java.io.IOException;
 
 /** A Jetty RequestLog implementation that supports pluggable appender implementations. */
-public class CustomRequestLog extends AbstractLifeCycle implements RequestLog
+public class CustomRequestLog
+	extends AbstractLifeCycle
+	implements RequestLog
 {
 	private	Appender appender;
 

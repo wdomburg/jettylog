@@ -12,7 +12,8 @@ import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 /** FileAppender class that supports daily rotation */
-public class DailyFileAppender extends FileAppender
+public class DailyFileAppender
+	extends FileAppender
 {
 	/** The path prefix used for filename generation */
 	private String prefix;
@@ -29,9 +30,9 @@ public class DailyFileAppender extends FileAppender
 	  * @param prefix The file prefix to use; will append the data in ISO-8601 format
 	  */
 	public DailyFileAppender(Layout layout, String prefix)
-    {   
+	{   
 		this.layout = layout;
-    	this.prefix = prefix;
+		this.prefix = prefix;
 		updateFilename();
  	}
 

@@ -15,7 +15,9 @@ import com.synacor.jetty.log.converter.ConverterBuilder;
 import com.synacor.jetty.log.converter.JettyConverter;
 
 /** Example of building a converter programatically */
-public class TestRequestLog extends AbstractLifeCycle implements RequestLog
+public class TestRequestLog
+	extends AbstractLifeCycle
+	implements RequestLog
 {
 	/** Holds the final converter */
 	private Converter converter;

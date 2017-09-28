@@ -14,7 +14,8 @@ import org.eclipse.jetty.util.log.Logger;
 import com.synacor.jetty.log.JettyEvent;
 
 /** Appender wrapper that utilizing a blocking queue to allow async operation */
-public class AsyncAppender extends Appender
+public class AsyncAppender
+	extends Appender
 {
 	/** The underlying appender being wrapped */
 	private Appender appender;

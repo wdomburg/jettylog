@@ -15,7 +15,8 @@ import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.PatternLayout;
 
 /* A log4j layout implementation that calls our PatternLayout class to format logging events */
-public class JettyLayout extends org.apache.log4j.Layout
+public class JettyLayout
+	extends org.apache.log4j.Layout
 {
 	/* The jetty layout object */
 	private PatternLayout layout;
@@ -53,8 +54,7 @@ public class JettyLayout extends org.apache.log4j.Layout
 		return layout.format(jettyEvent) + "\n";
 	}
 
-	/* N/A - This may be removeable if there is a stub implementation in the
-       parent class */
+	/* N/A - This may be removeable if there is a stub implementation in the parent class */
 	public void activateOptions()
 	{
 	}

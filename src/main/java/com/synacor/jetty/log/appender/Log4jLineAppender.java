@@ -13,7 +13,8 @@ import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 /** Appender that formats an event and passes it to log4j */
-public class Log4jLineAppender extends Appender
+public class Log4jLineAppender
+	extends Appender
 {
 	/** Holds the underlying log4j logger */
 	private Layout layout;

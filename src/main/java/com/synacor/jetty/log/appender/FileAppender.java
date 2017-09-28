@@ -15,7 +15,8 @@ import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 /** An appender instance that simply writes out to a file */
-public class FileAppender extends Appender
+public class FileAppender
+	extends Appender
 {
 	/** The layout impleneted used to format events */
 	protected Layout layout;
@@ -36,7 +37,7 @@ public class FileAppender extends Appender
 	  *
 	  * @param layout The layout implementation to use
 	  * @param filename The filename to output to
-      */
+	  */
 	public FileAppender(Layout layout, String filename)
 	{
 		this.layout = layout;

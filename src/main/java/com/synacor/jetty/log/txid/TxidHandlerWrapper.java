@@ -19,7 +19,8 @@ import org.eclipse.jetty.server.handler.HandlerWrapper;
 import com.synacor.txid.TxidFactory;
 import com.synacor.txid.Txid120Factory;
 
-public class TxidHandlerWrapper extends HandlerWrapper
+public class TxidHandlerWrapper
+	extends HandlerWrapper
 {
 
 	private String headerName;

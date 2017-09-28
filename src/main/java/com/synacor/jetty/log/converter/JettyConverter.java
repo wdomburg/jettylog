@@ -16,7 +16,8 @@ import org.eclipse.jetty.server.Request;
 import com.synacor.jetty.log.Event;
 import com.synacor.jetty.log.JettyEvent;
 
-public abstract class JettyConverter extends Converter
+public abstract class JettyConverter
+	extends Converter
 {   
 
 	public static class Attribute extends JettyConverter

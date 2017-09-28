@@ -12,7 +12,8 @@ import com.synacor.jetty.log.Event;
 import com.synacor.jetty.log.JettyEvent;
 
 /** Appender that passes an unformated log Event to log4j for processing */
-public class Log4jAppender extends Appender
+public class Log4jAppender
+	extends Appender
 {
 	/** Holds the underlying log4j logger */
 	private Logger logger;

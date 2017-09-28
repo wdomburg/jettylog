@@ -28,7 +28,8 @@ public abstract class Converter
 
 	};
 
-	public static class DateNow extends Converter
+	public static class DateNow
+		extends Converter
 	{
 		private final DateFormat dateFormat;
 
@@ -44,7 +45,8 @@ public abstract class Converter
 		}
 	}
 
-	public static class Literal extends Converter
+	public static class Literal
+		extends Converter
 	{
 		private final String literal;
 
@@ -60,7 +62,8 @@ public abstract class Converter
 		}
 	}
 
-	public static class ThreadName extends Converter
+	public static class ThreadName
+		extends Converter
 	{
 		public String format(StringBuilder entry, Event event)
 		{   

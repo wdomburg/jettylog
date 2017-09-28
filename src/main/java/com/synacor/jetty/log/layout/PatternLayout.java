@@ -19,21 +19,22 @@ import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.server.Request;
 
 /** Layout implementation using Apache-style LogFormat pattern strings */
-public class PatternLayout extends Layout
+public class PatternLayout
+	extends Layout
 {
 	/** Apache Common Log Format */
 	public static final String COMMON = "%h %l %u %t \"%r\" %s %b";
 	/** Apache Combined Log Format*/
 	public static final String COMBINED = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"";
-    //TODO: Add modifiers; e.g. %>s vs %s
+	//TODO: Add modifiers; e.g. %>s vs %s
 
 	/** The currently configured pattern */
 	private String pattern;
 	/** The generated pattern converter */
 	private Converter converter;
 
-    /** The Jetty logger for logging initialization and faults */
-    private static final Logger LOG = Log.getLogger(PatternLayout.class);
+	/** The Jetty logger for logging initialization and faults */
+	private static final Logger LOG = Log.getLogger(PatternLayout.class);
 
 	/**
 	 * Construct a layout with default pattern

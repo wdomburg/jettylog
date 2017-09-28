@@ -81,7 +81,8 @@ public abstract class Token
 	}
 
 	/** A token representing a string of literal characters */
-	protected static class Literal extends Token
+	protected static class Literal
+		extends Token
 	{
 		String literal; 
 
@@ -117,7 +118,8 @@ public abstract class Token
 	}
 
 	/** A token representing a format directive */
-	protected static class Directive extends Token
+	protected static class Directive
+		extends Token
 	{
 		/** The charcter specifying the format directive */
 		char directive;

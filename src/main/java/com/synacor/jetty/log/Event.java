@@ -11,7 +11,7 @@ public class Event
 {
 	/**
 	 * Stores the thread name so it isn't lost with async loggers
-     */
+	*/
 	public final String threadName;
 
 	/** Constructs a generic event object */

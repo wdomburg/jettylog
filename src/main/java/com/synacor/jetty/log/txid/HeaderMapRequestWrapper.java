@@ -13,7 +13,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-public class HeaderMapRequestWrapper extends HttpServletRequestWrapper
+public class HeaderMapRequestWrapper
+	extends HttpServletRequestWrapper
 {
 
 	public HeaderMapRequestWrapper(HttpServletRequest request)

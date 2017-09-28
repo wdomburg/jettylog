@@ -13,7 +13,8 @@ import com.synacor.jetty.log.JettyEvent;
 import com.synacor.jetty.log.layout.Layout;
 
 /** Appender that formats an event and writes it to a PrintStream*/
-public class PrintStreamAppender extends Appender
+public class PrintStreamAppender
+	extends Appender
 {
 	/** Holds the underlying PrintStream */
 	private PrintStream stream;

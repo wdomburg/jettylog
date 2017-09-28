@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.synacor.txid.TxidFactory;
 import com.synacor.txid.Txid120Factory;
 
-public class TxidFilter implements Filter
+public class TxidFilter
+	implements Filter
 {
 
 	private final String headerName;
