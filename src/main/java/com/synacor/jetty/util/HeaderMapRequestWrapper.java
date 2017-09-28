@@ -2,7 +2,7 @@
  * Copyright (c) 2017. Synacor, Inc.
  */
 
-package com.synacor.jetty.log.txid;
+package com.synacor.jetty.util;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -44,6 +44,7 @@ public class HeaderMapRequestWrapper
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Enumeration<String> getHeaderNames()
 	{
 		List<String> names = Collections.list(super.getHeaderNames());
@@ -57,6 +58,7 @@ public class HeaderMapRequestWrapper
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Enumeration<String> getHeaders(String name)
 	{
 		List<String> values = Collections.list(super.getHeaders(name));

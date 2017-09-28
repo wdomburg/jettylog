@@ -60,3 +60,21 @@ Writes a formatted entry to a log4j logger. Typically the Log4jAppender will be 
 Passes an unformatted log event to a log4j logger.
 
 Successful operations will be logged as informational, client errors will be logged as warnings, and server errors will be logged as errors.
+
+### Log4j Integration
+
+#### com.synacor.jetty.log4j.JettyLayout
+
+A log4j layout implementation to be used in concert with the Log4jAppender; e.g.
+
+    log4j.appender.ERRORLOG=org.apache.log4j.ConsoleAppender
+    log4j.appender.ERRORLOG=org.apache.log4j.RollingFileAppender
+    log4j.appender.ERRORLOG.File=/var/log/myapp.error.log
+    log4j.appender.ERRORLOG.layout=com.synacor.jetty.log4j.JettyLayout
+    log4j.appender.ERRORLOG.layout.Pattern=%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i" "%{Cookie}i" "%{X-Transaction-ID}i" %v %D "%{HOST}i"
+    log4j.appender.ERRORLOG.Threshold=WARN
+
+### Other
+
+#### com.synacor.jetty.log.txid.TxidHandlerWrapper
+

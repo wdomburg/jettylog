@@ -9,6 +9,7 @@ desc 'Flexible Jetty logging module'
 define 'jettylog' do
         project.group = 'com.synacor.jetty'
         project.version = VERSION_NUMBER
+		compile.options.lint = 'all'
 		compile.with 'javax.servlet:servlet-api:jar:2.5'
 		compile.with 'org.eclipse.jetty:jetty-server:jar:9.3.5.v20151012'
 		compile.with 'org.eclipse.jetty:jetty-util:jar:9.3.5.v20151012'

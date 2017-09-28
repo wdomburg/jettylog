@@ -5,3 +5,8 @@ jettylog.jar:
 
 libtxid-java.so:
 	$(MAKE) -C src/main/c
+
+clean:
+	rm -f target/*.jar
+	rm -rf target/classes/*
+	$(MAKE) -C src/main/c clean

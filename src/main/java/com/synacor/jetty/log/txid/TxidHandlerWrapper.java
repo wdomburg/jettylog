@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.HandlerWrapper;
 
-import com.synacor.txid.TxidFactory;
-import com.synacor.txid.Txid120Factory;
+import com.synacor.jetty.util.HeaderMapRequestWrapper;
+import com.synacor.util.txid.TxidFactory;
+import com.synacor.util.txid.Txid120Factory;
 
 public class TxidHandlerWrapper
 	extends HandlerWrapper
