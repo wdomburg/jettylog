@@ -16,25 +16,25 @@ public class Log4j
     public static void main( String[] args ) throws Exception
     {
 
-		PropertyConfigurator.configure("./log4j.properties");
+	PropertyConfigurator.configure("./log4j.properties");
 
         Server server = new Server(8080);
 
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(HelloServlet.class, "/*");
 
-		Log4jAppender appender = new Log4jAppender();
+	Log4jAppender appender = new Log4jAppender();
 
-		RequestLog requestLog = new CustomRequestLog(appender);
-		RequestLogHandler logHandler = new RequestLogHandler();
-		logHandler.setRequestLog(requestLog);
+	RequestLog requestLog = new CustomRequestLog(appender);
+	RequestLogHandler logHandler = new RequestLogHandler();
+	logHandler.setRequestLog(requestLog);
 
-		TxidHandlerWrapper txidHandler = new TxidHandlerWrapper();
-		txidHandler.setHandler(logHandler);
+	TxidHandlerWrapper txidHandler = new TxidHandlerWrapper();
+	txidHandler.setHandler(logHandler);
 
-		HandlerCollection handlers = new HandlerCollection();
-		handlers.addHandler(handler);
-		handlers.addHandler(txidHandler);
+	HandlerCollection handlers = new HandlerCollection();
+	handlers.addHandler(handler);
+	handlers.addHandler(txidHandler);
 
         server.setHandler(handlers);
 

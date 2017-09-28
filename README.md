@@ -2,6 +2,77 @@
 
 This is an alternate Jetty RequestLog implementation that providing for customizable output and integration with existing logging frameworks.
 
+## Usage
+
+This framework can be utilized either through configuration files in the Jetty IoC XML format, or programatically.
+
+### jetty.xml
+
+To configure the use of log4j for the request log for the entire Jetty Server instance.
+
+    <Set name="handler">
+      <New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
+        <Set name="handlers">
+          <Array type="org.eclipse.jetty.server.Handler">
+            <Item>
+              <New id="Contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
+            </Item>
+            <Item>
+              <New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler"/>
+            </Item>
+            <Item>
+              <New id="RequestLog" class="org.eclipse.jetty.server.handler.RequestLogHandler"/>
+            </Item>
+          </Array>
+        </Set>
+      </New>
+    </Set>
+    <Ref id="RequestLog">
+      <Set name="requestLog">
+        <New id="RequestLogImpl" class="com.synacor.jetty.log.CustomRequestLog">
+          <Arg>
+            <New id="Appender" class="com.synacor.jetty.log.appender.Log4jAppender"></New>
+          </Arg> 
+      </Set>
+    </Ref>
+
+Alternately, to configure asynchronous logging without an additional dependency:
+
+    <Ref id="RequestLog">
+      <Set name="requestLog">
+        <New id="RequestLogImpl" class="com.synacor.jetty.log.CustomRequestLog">
+          <Arg>
+            <New id="Appender" class="com.synacor.jetty.log.appender.AsyncAppender">
+              <Arg>
+                <New id="Appender" class="com.synacor.jetty.log.appender.DailyFileAppender">
+                  <Arg>/opt/zimbra/log/access_log</Arg>
+                  <Arg>
+                     <New id="Layout" class="com.synacor.jetty.log.layout.PatternLayout">
+                        <Arg>%h %l %u %t "%r" %s %b</Arg>
+                     </New>
+                  </Arg>
+                </New>
+              </Arg>
+            </New>
+          </Arg>
+        </New>
+      </Set>
+    </Ref>
+
+### Programatic
+
+The equilalent code for the log4j example above would be:
+
+    HandlerCollection handlers = new HandlerCollection();
+    ContextHandlerCollection contexts = new ContextHandlerCollection();
+    RequestLogHandler requestLogHandler = new RequestLogHandler();
+    handlers.setHandlers(new Handler[]{contexts,new DefaultHandler(),requestLogHandler});
+    server.setHandler(handlers);
+
+    Log4jAppender appender = new Log4jAppender();
+    RequestLog requestLog = new CustomRequestLog(appender);
+    requstLogHandler.setRequestLog(requestLog);
+
 ## Components
 
 ### Event
@@ -76,5 +147,18 @@ A log4j layout implementation to be used in concert with the Log4jAppender; e.g.
 
 ### Other
 
-#### com.synacor.jetty.log.txid.TxidHandlerWrapper
+Additional classes were added to this package to fascilitate the implementation of transaction ID generation and logging for tracability purposes.
+
+#### TxidFactory
+
+A utility class for generating transaction IDs for request tracking, along with two implementations.
+
+#### HeaderMapRequestWrapper
+
+A utility class for Jetty allowing injection of synthetic headers intp an HttpServletRequest.
+
+#### TxidHandlerWrapper
+
+A Jetty handler wrapper that injects a generated transaction ID into the headers of requests if not already present.
+
 
